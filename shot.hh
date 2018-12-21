@@ -3,9 +3,6 @@
 #include "character.hh"
 
 
-typedef enum Direction_t {UP, DOWN} Direction_t;
-
-
 class Character;
 class Shot : public Entity {
 
@@ -15,7 +12,7 @@ class Shot : public Entity {
 
 
 	public:
-		static constexpr std::size_t m_shot_size = 5;			//Size of a Shot object (value to modify)
+		static constexpr std::size_t m_shot_size = 5;	//Size of a Shot object (value to modify)
 		static constexpr int m_shot_velocity = 5;		//Size of a Shot object (value to modify)
 
 

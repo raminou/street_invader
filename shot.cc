@@ -6,6 +6,12 @@ Shot::Shot(int x, int y, Character* author, Direction_t direction) : Entity(x, y
 Shot::~Shot() {}
 
 void Shot::move() {
-	// m_x += direction * m_shot_velocity;
-	// m_y += direction * m_shot_velocity;
+	switch(m_direction) {
+		case UP:
+			m_y += m_shot_velocity;
+		case DOWN:
+			m_y -= m_shot_velocity;
+		default:
+			return;
+	}
 }

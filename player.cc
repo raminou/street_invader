@@ -11,3 +11,22 @@ Shot* Player::shoot()
 {
 	return nullptr;
 }
+
+Player::~Player() {}
+
+
+
+void Player::move(Direction_t direction) {
+	switch(direction) {
+		case LEFT:
+			m_y -= m_shot_velocity;
+		case DOWN:
+			m_y += m_shot_velocity;
+		default:
+			return;
+	}
+}
+
+Shot* Player::shoot() {
+
+}
