@@ -11,9 +11,9 @@ Player::~Player() {}
 void Player::move(Direction_t direction) {
 	switch(direction) {
 		case LEFT:
-			m_y -= m_shot_velocity;
-		case DOWN:
-			m_y += m_shot_velocity;
+			m_y -= m_player_velocity;
+		case RIGHT:
+			m_y += m_player_velocity;
 		default:
 			return;
 	}
@@ -21,6 +21,8 @@ void Player::move(Direction_t direction) {
 
 
 
-Shot* Player::shoot() {
 
+Shot* Player::shoot() {
+	
+	
 }
