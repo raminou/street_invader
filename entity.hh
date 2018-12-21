@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 
 class Entity {
 
@@ -10,7 +10,7 @@ class Entity {
 
 
 	public:
-		Entity(int x, int y, int size);
+		Entity(int x, int y, std::size_t size);
 		virtual ~Entity();
 		virtual void move() const = 0;  	
 };

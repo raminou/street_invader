@@ -10,7 +10,7 @@ class Character : public Entity {
 
 
 	public:
-		Character(int x, int y, int size, int hp);
+		Character(int x, int y, std::size_t size, int hp);
 		virtual ~Character();
 		virtual void move() const = 0;  
 		virtual Shot* shoot() const = 0;	
