@@ -17,5 +17,5 @@ class Player : public Character {
 		Player(int x, int y, int hp, std::string name);
 		virtual ~Player();
 		virtual void move(Direction_t direction);  
-		virtual Shot* shoot();	
+		virtual Shot* shoot() const;	
 };
