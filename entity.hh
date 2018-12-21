@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+typedef enum Direction_t {UP, DOWN, LEFT, RIGHT} Direction_t;
+
 class Entity {
 
 	protected:
@@ -12,7 +14,7 @@ class Entity {
 	public:
 		Entity(int x, int y, std::size_t size);
 		virtual ~Entity();
-		virtual void move() const = 0;  	
+		//virtual void move() const = 0;  	
 };
 
 

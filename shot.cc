@@ -9,7 +9,13 @@ Shot::~Shot() {}
 
 
 
-void Shot::move(Direction_t direction) {
-	m_x += direction * m_shot_velocity;
-	m_y += direction * m_shot_velocity;
+void Shot::move() {
+	switch(m_direction) {
+		case UP:
+			m_y += m_shot_velocity;
+		case DOWN:
+			m_y -= m_shot_velocity;
+		default:
+			return;
+	}
 }
