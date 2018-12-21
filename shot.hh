@@ -21,5 +21,5 @@ class Shot : public Entity {
 
 		Shot(int x, int y, Character* author, Direction_t direction);
 		virtual ~Shot();
-		virtual void move(Direction_t direction);
+		virtual void move();
 };

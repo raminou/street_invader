@@ -12,7 +12,7 @@ class Entity {
 	public:
 		Entity(int x, int y, std::size_t size);
 		virtual ~Entity();
-		virtual void move() const = 0;  	
+		virtual void move() const = 0;
 };
 
 
