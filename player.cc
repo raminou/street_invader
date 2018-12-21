@@ -9,9 +9,9 @@ Player::~Player() {}
 void Player::move(Direction_t direction) {
 	switch(direction) {
 		case LEFT:
-			m_y -= m_player_velocity;
+			m_x -= m_player_velocity;
 		case DOWN:
-			m_y += m_player_velocity;
+			m_x += m_player_velocity;
 		default:
 			return;
 	}
@@ -20,5 +20,5 @@ void Player::move(Direction_t direction) {
 
 
 Shot* Player::shoot() const {
-	return nullptr;
+	return new Shot(m_x + m_size/2, m_y - 1, this, UP);
 }
