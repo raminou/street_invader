@@ -7,7 +7,8 @@ class Enemy: public Character
 	public:
 		static constexpr int size = 20;
 		Enemy(int x, int y, int hp);
-		void move();
-		Shot* shoot();
+		virtual ~Enemy();
+		void move(Direction_t direction);
+		Shot* shoot() const;
 };
 

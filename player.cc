@@ -4,7 +4,7 @@ Player::Player(int x, int y, int hp, std::string name) : Character(x, y, Player:
 
 Player::~Player() {}
 
-Shot* Player::shoot()
+Shot* Player::shoot() const
 {
 	return nullptr;
 }
