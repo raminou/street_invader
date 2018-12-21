@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -g
+CFLAGS=-Wall -g -std=c++11
 CCDIRECTORY=src
 EXEC=game
 OBJ=entity.o character.o player.o enemy.o shot.o game.o window.o main.o

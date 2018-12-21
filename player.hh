@@ -13,6 +13,7 @@ class Player : public Character {
 	public:
 		static constexpr std::size_t m_player_size = 20;		//Size of a Player object (value to modify)
 
+
 		Player(int x, int y, std::size_t size, int hp, std::string name);
 		virtual ~Player();
 		virtual void move();  
