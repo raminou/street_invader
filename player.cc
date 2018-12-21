@@ -2,7 +2,15 @@
 
 Player::Player(int x, int y, int hp, std::string name) : Character(x, y, Player::m_player_size, hp), m_name(name) {}
 
+Player::~Player() {}
 
+void Player::move()
+{}
+
+Shot* Player::shoot()
+{
+	return nullptr;
+}
 
 Player::~Player() {}
 
@@ -18,8 +26,6 @@ void Player::move(Direction_t direction) {
 			return;
 	}
 }
-
-
 
 
 Shot* Player::shoot() {
