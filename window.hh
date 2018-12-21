@@ -10,5 +10,5 @@ class Window
 		Game* m_game;
 	
 	public:
-		Window();
+		Window(int size_window_x, int size_window_y);
 };
