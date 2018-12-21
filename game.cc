@@ -1,4 +1,4 @@
-#include "game.h"
+#include "game.hh"
 
 Game::Game(int size_x, int size_y, const Player& p): m_size_window_x(size_x), m_size_window_y(size_y), m_player(p) {}
 
