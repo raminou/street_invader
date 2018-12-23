@@ -7,8 +7,11 @@ class Window
 {
 	private:
 		sf::RenderWindow m_window;
-		Game* m_game;
+        Player m_player;
+        Game* m_game;
 	
 	public:
 		Window(int size_window_x, int size_window_y);
+        void main_loop();
+        void refresh_screen();
 };
