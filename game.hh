@@ -21,9 +21,9 @@ class Game
         ~Game();
         
         // Getters
-        Player* get_player();
-        std::list<Shot*> get_shots();
-        std::list<Enemy*> get_enemies();
+        Player* get_player() const;
+        std::list<Shot*> get_shots() const;
+        std::list<Enemy*> get_enemies() const;
         
 		void player_move(Direction_t dir);
 		void player_shot();

@@ -2,7 +2,7 @@
 
 int main()
 {
-	Window w(200, 200);
+	Window w(800, 500);
     w.main_loop();
 	return 0;
 }

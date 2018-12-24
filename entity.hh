@@ -12,8 +12,14 @@ class Entity {
 
 
 	public:
+        // Constructor and destructor
 		Entity(int x, int y, std::size_t size);
 		virtual ~Entity();
+        
+        // Getters
+        int get_x() const;
+        int get_y() const;
+        
 		//virtual void move() const = 0;
 };
 

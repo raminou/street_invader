@@ -16,15 +16,15 @@ Game::~Game()
 }
 
 // Getters
-Player* Game::get_player() {
+Player* Game::get_player() const {
     return m_player;
 }
 
-std::list<Shot*> Game::get_shots() {
+std::list<Shot*> Game::get_shots() const {
     return m_list_shot;
 }
 
-std::list<Enemy*> Game::get_enemies() {
+std::list<Enemy*> Game::get_enemies() const {
     return m_list_enemy;
 }
 
@@ -41,8 +41,8 @@ void Game::player_move(Direction_t dir)
 void Game::generate()
 {
     // Creating enemies
-    int distance_x = 5;
-    int distance_y = 5;
+    int distance_x = 25;
+    int distance_y = 25;
     int init_padding_x = 10;
     int padding_x = init_padding_x;
     int padding_y = 10;
@@ -54,7 +54,7 @@ void Game::generate()
         if((i+1) % 5 == 0)
         {
             padding_x = init_padding_x;
-            padding_y = distance_y + Enemy::m_enemy_size;
+            padding_y += distance_y + Enemy::m_enemy_size;
         }
     }
 }

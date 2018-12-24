@@ -13,9 +13,10 @@ class Player : public Character {
 		static constexpr std::size_t m_player_size = 20;		//Size of a Player object (value to modify)
 		static constexpr std::size_t m_player_velocity = 5;		//Velocity of a Shot object (value to modify)
 
-
+        // Constructor and destructor
 		Player(int x, int y, int hp, std::string name);
 		virtual ~Player();
+
 		void move(Direction_t direction);
         void change_position(int x, int y);
 		Shot* shoot() const;
