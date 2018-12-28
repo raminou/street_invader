@@ -11,3 +11,7 @@ int Entity::get_x() const {
 int Entity::get_y() const {
     return m_y;
 }
+
+bool Entity::check_hit(Entity* en) const {
+    return false;
+}

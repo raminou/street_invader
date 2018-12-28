@@ -15,8 +15,10 @@ class Shot : public Entity {
 		static constexpr std::size_t m_shot_size = 5;	//Size of a Shot object (value to modify)
 		static constexpr int m_shot_velocity = 5;		//Velocity of a Shot object (value to modify)
 
-
 		Shot(int x, int y, const Character* author, Direction_t direction);
 		virtual ~Shot();
+        
+        const Character* get_author() const;
+        
 		virtual void move();
 };

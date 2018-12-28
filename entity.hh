@@ -20,6 +20,8 @@ class Entity {
         int get_x() const;
         int get_y() const;
         
+        bool check_hit(Entity* en) const;
+        
 		//virtual void move() const = 0;
 };
 

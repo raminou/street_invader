@@ -57,4 +57,41 @@ void Game::generate()
             padding_y += distance_y + Enemy::m_enemy_size;
         }
     }
+    
+    // Setting the player in the middle of the screen
+    m_player->change_position(m_size_window_x/2 - Player::m_player_size/2, m_size_window_y - 25);
+}
+
+void Game::progress_shot() {
+    for(auto& ite : m_list_shot)
+    {
+        ite->move();
+    }
+    
+    for(auto& ite : m_list_shot)
+    {
+        Player* tmp_author = dynamic_cast<Player*>(ite);
+        if(tmp_author != nullptr)
+        {
+            // If the author is a player, we are checking collision with enemies
+            const Enemy* enemy_hit = nullptr;
+            for(const Enemy* ite_enemy : m_list_enemy)
+            {
+                if(ite_enemy->check_hit(ite))
+                {
+                    enemy_hit = ite_enemy;
+                    break;
+                }
+            }
+            
+            if(enemy_hit != nullptr)
+                enemy_hit->reduce_hp();
+        }
+        else
+        {
+            // Else we are checking collision with the player
+            if(ite->check_hit(m_player))
+            {}
+        }
+    }
 }

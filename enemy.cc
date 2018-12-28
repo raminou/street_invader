@@ -15,7 +15,7 @@ void Enemy::move(Direction_t direction) {
 		case LEFT:
 			m_x -= m_enemy_velocity;
 		case RIGHT:
-			m_y += m_enemy_velocity;
+			m_x += m_enemy_velocity;
 		default:
 			return;
 	}
@@ -23,4 +23,9 @@ void Enemy::move(Direction_t direction) {
 
 Shot* Enemy::shoot() const{
 	return new Shot(m_x + m_size/2, m_y + 1, this, DOWN);
+}
+
+void Enemy::reduce_hp() {
+    if(this->m_hp > 0)
+        this->m_hp--;
 }

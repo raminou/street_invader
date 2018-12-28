@@ -11,6 +11,8 @@ class Enemy: public Character
 
 		Enemy(int x, int y, int hp);
 		virtual ~Enemy();
+        
+        void reduce_hp();
 		void move(Direction_t direction);
 		Shot* shoot() const;
 };

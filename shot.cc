@@ -8,10 +8,16 @@ Shot::~Shot() {}
 void Shot::move() {
 	switch(m_direction) {
 		case UP:
-			m_y += m_shot_velocity;
-		case DOWN:
 			m_y -= m_shot_velocity;
+            break;
+		case DOWN:
+			m_y += m_shot_velocity;
+            break;
 		default:
 			return;
 	}
+}
+
+const Character* Shot::get_author() const {
+    return m_author;
 }
