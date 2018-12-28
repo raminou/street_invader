@@ -68,30 +68,41 @@ void Game::progress_shot() {
         ite->move();
     }
     
-    for(auto& ite : m_list_shot)
+    // for(Shot* ite : m_list_shot)
+    for(auto ite = m_list_shot.begin(); ite != m_list_shot.end(); ite++)
     {
-        Player* tmp_author = dynamic_cast<Player*>(ite);
+        Player* tmp_author = dynamic_cast<Player*>((*ite)->get_author());
         if(tmp_author != nullptr)
         {
             // If the author is a player, we are checking collision with enemies
-            const Enemy* enemy_hit = nullptr;
+            Enemy* enemy_hit = nullptr;
             for(const Enemy* ite_enemy : m_list_enemy)
             {
-                if(ite_enemy->check_hit(ite))
+                if(ite_enemy->check_hit(*ite))
                 {
-                    enemy_hit = ite_enemy;
+                    enemy_hit = (Enemy*)ite_enemy;
                     break;
                 }
             }
             
+            // If an enemy has been hit
             if(enemy_hit != nullptr)
+            {
                 enemy_hit->reduce_hp();
+                
+                if(enemy_hit->get_hp() == 0)
+                {
+                    // m_list_shot.erase(ite);
+                }
+            }
         }
         else
         {
             // Else we are checking collision with the player
-            if(ite->check_hit(m_player))
-            {}
+            if((*ite)->check_hit(m_player))
+            {
+                
+            }
         }
     }
 }

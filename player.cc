@@ -20,7 +20,7 @@ void Player::move(Direction_t direction) {
 }
 
 Shot* Player::shoot() const {
-	return new Shot(m_x + m_size/2, m_y - 1, this, UP);
+	return new Shot(m_x + m_size/2, m_y - 1, (Player*)this, UP);
 }
 
 void Player::change_position(int x, int y) {

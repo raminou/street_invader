@@ -22,7 +22,7 @@ void Enemy::move(Direction_t direction) {
 }
 
 Shot* Enemy::shoot() const{
-	return new Shot(m_x + m_size/2, m_y + 1, this, DOWN);
+	return new Shot(m_x + m_size/2, m_y + 1, (Enemy*)this, DOWN);
 }
 
 void Enemy::reduce_hp() {

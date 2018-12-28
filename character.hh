@@ -12,6 +12,8 @@ class Character : public Entity {
 	public:
 		Character(int x, int y, std::size_t size, int hp);
 		virtual ~Character();
+        
+        int get_hp() const;
 		virtual void move(Direction_t direction) = 0;  
 		virtual Shot* shoot() const = 0;
 };
