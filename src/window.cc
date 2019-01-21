@@ -15,7 +15,7 @@ void Window::refresh_screen()
     sf::RectangleShape* rect_tmp = nullptr;
     
     // Player
-    std::cout << "pos x:" << m_player.get_x() << ", y:" << m_player.get_y() << std::endl;
+    // std::cout << "pos x:" << m_player.get_x() << ", y:" << m_player.get_y() << std::endl;
     m_rect_player.setPosition(m_player.get_x(), m_player.get_y());
     m_window.draw(m_rect_player);
     

@@ -26,6 +26,7 @@ Shot* Enemy::shoot() const{
 }
 
 void Enemy::reduce_hp() {
-    if(this->m_hp > 0)
+	std::cout << "reducehp: " << m_hp << std::endl;
+    if(this->m_hp >= 0)
         this->m_hp--;
 }

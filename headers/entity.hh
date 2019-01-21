@@ -19,8 +19,9 @@ class Entity {
         // Getters
         int get_x() const;
         int get_y() const;
+		std::size_t get_size() const;
         
-        bool check_hit(const Entity* en) const;
+        bool check_hit(const Entity& en, bool inverse=true) const;
         
 		//virtual void move() const = 0;
 };

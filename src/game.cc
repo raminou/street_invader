@@ -49,7 +49,7 @@ void Game::generate()
     
     for(int i = 0; i < 15; i++)
     {
-        m_list_enemy.push_back(new Enemy(padding_x, padding_y, 1));
+        m_list_enemy.push_back(new Enemy(padding_x, padding_y, 0));
         padding_x += Enemy::m_enemy_size + distance_x;
         if((i+1) % 5 == 0)
         {
@@ -58,51 +58,65 @@ void Game::generate()
         }
     }
     
+    // m_list_enemy.push_back(new Enemy(400, 50, 0));
+    
     // Setting the player in the middle of the screen
     m_player->change_position(m_size_window_x/2 - Player::m_player_size/2, m_size_window_y - 25);
 }
 
 void Game::progress_shot() {
-    for(auto& ite : m_list_shot)
+    // std::cout << "sizel: " << m_list_shot.size() << std::endl;
+    // Move shots and erase if they are out of the window
+    std::list<Shot*>::iterator ite = m_list_shot.begin();
+    while(ite != m_list_shot.end())
     {
-        ite->move();
+        (*ite)->move();
+        if((*ite)->get_y() < 0 || (*ite)->get_y() >= m_size_window_y || (*ite)->get_x() < 0 || (*ite)->get_x() >= m_size_window_x)
+            ite = m_list_shot.erase(ite);
+        else
+            ite++;
     }
     
-    // for(Shot* ite : m_list_shot)
-    for(auto ite = m_list_shot.begin(); ite != m_list_shot.end(); ite++)
+    ite = m_list_shot.begin();
+    while(ite != m_list_shot.end())
     {
+        // std::cout << "ite x: " << (*ite)->get_x() << ", y: " << (*ite)->get_y() << std::endl;
+
+        bool hit = false;
         Player* tmp_author = dynamic_cast<Player*>((*ite)->get_author());
         if(tmp_author != nullptr)
         {
             // If the author is a player, we are checking collision with enemies
-            Enemy* enemy_hit = nullptr;
-            for(const Enemy* ite_enemy : m_list_enemy)
+            std::list<Enemy*>::iterator ite_enemy;
+            for(ite_enemy = m_list_enemy.begin(); ite_enemy != m_list_enemy.end(); ite_enemy++)
             {
-                if(ite_enemy->check_hit(*ite))
+                // If an enemy has been hit
+                if((*ite_enemy)->check_hit((Entity&)(**ite)))
                 {
-                    enemy_hit = (Enemy*)ite_enemy;
+                    hit = false;
+                    std::cout << "enemy hit" << std::endl;
+                    (*ite_enemy)->reduce_hp();
+
+                    // Clear shot
+                    ite = m_list_shot.erase(ite);
+
+                    if((*ite_enemy)->get_hp() < 0)
+                        m_list_enemy.erase(ite_enemy);
                     break;
                 }
             }
             
-            // If an enemy has been hit
-            if(enemy_hit != nullptr)
-            {
-                enemy_hit->reduce_hp();
-                
-                if(enemy_hit->get_hp() == 0)
-                {
-                    // m_list_shot.erase(ite);
-                }
-            }
+            if(!hit)
+                ite++;
         }
         else
         {
             // Else we are checking collision with the player
-            if((*ite)->check_hit(m_player))
+            if((*ite)->check_hit(*m_player))
             {
-                
+                ;
             }
         }
     }
+    // std::cout << "endprogressshot" << std::endl;
 }

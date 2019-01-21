@@ -1,7 +1,7 @@
 #include "shot.hh"
 
 
-Shot::Shot(int x, int y, Character* author, Direction_t direction) : Entity(x, y, 5), m_author(author), m_direction(direction) {}
+Shot::Shot(int x, int y, Character* author, Direction_t direction) : Entity(x, y, Shot::m_shot_size), m_author(author), m_direction(direction) {}
 
 Shot::~Shot() {}
 
@@ -16,6 +16,7 @@ void Shot::move() {
 		default:
 			return;
 	}
+	// std::cout << "move: " << m_y << std::endl;
 }
 
 Character* Shot::get_author() const {
