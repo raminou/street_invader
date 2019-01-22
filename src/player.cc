@@ -1,16 +1,15 @@
 #include "player.hh"
 
 Player::Player(int x, int y, int hp, std::string name) : Character(x, y, Player::m_player_size, hp), m_name(name), m_score(0) {
-
+/*
 	if (!m_player_texture.loadFromFile("resources/texture/macron.png")) {
     	std::cout << "Error loading macron.png" << std::endl;
     }
-
     m_player_texture.setSmooth(true);
     m_player_sprite.setTexture(m_player_texture);
     m_player_sprite.setPosition(x, y);
-
     m_player_sprite.setScale(0.2f, 0.2f);
+*/
 }
 
 Player::~Player() {}
@@ -27,6 +26,11 @@ std::string Player::get_name() const {
 sf::Sprite Player::get_sprite() const
 {
     return m_player_sprite;
+}
+
+sf::Texture Player::get_texture() const
+{
+    return m_player_texture;
 }
 
 void Player::move(Direction_t direction, int min_x, int max_x) {

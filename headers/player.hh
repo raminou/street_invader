@@ -23,6 +23,7 @@ class Player : public Character {
 		// Getters
 		unsigned int get_score() const;
 		std::string get_name() const;
+		sf::Texture get_texture() const;
 		sf::Sprite get_sprite() const;
 
 		void move(Direction_t direction, int min_x, int max_x);

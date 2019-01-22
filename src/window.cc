@@ -5,14 +5,14 @@ Window::Window(int size_window_x, int size_window_y):
 	m_state(SGame),
     m_player(0, 0, 0, "toto"),
     m_game(nullptr),
-    //m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),
+    m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),
 	m_banner_position(size_window_x),
 	m_font_score(std::make_tuple(false, sf::Font())),
 	m_font_banner(std::make_tuple(false, sf::Font()))
 {
 	m_window.setFramerateLimit(60);
     m_game = new Game(size_window_x, size_window_y-100, &m_player);
-    //m_rect_player.setFillColor(sf::Color(255, 0, 0));
+    m_rect_player.setFillColor(sf::Color(255, 0, 0));
 	
 	// Load font if it is possible
 	if(!std::get<1>(m_font_score).loadFromFile("resources/font/firstgradelili.ttf")) {
@@ -28,15 +28,28 @@ Window::Window(int size_window_x, int size_window_y):
 	else
 		std::get<0>(m_font_banner) = true;
 
+/*
+	if (!m_player.get_texture().loadFromFile("resources/texture/macron.png")) {
+    	std::cout << "Error loading macron.png" << std::endl;
+    }
+    m_player.get_texture().setSmooth(true);
+    m_player.get_sprite().setTexture(m_player.get_texture());
+    m_player.get_sprite().setPosition(m_player.get_x(), m_player.get_y());
+    m_player.get_sprite().setScale(0.2f, 0.2f);
+*/
 	if (!m_window_texture_banner.loadFromFile("resources/texture/banner.png")) {
     	std::cout << "Error loading banner.png" << std::endl;
     }
+    //m_window_sprite_banner.setTexture(m_window_texture_banner);
     m_window_sprite_banner.setScale(0.5f, 0.25f);
+    
 
     if (!m_window_texture_logo.loadFromFile("resources/texture/bfm.png")) {
     	std::cout << "Error loading bfm.png" << std::endl;
     }
+    //m_window_sprite_logo.setTexture(m_window_texture_logo);
     m_window_sprite_logo.setScale(0.2f, 0.2f);
+
 }
 
 void Window::refresh_screen()
@@ -47,19 +60,20 @@ void Window::refresh_screen()
 		case SGame:
 
 			//Banner
-			m_window_sprite_banner.setTexture(m_window_texture_banner);
+		/*
     		m_window_sprite_banner.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_banner);
-
-    		m_window_sprite_logo.setTexture(m_window_texture_logo);
+    		
     		m_window_sprite_logo.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_logo);
-
+		*/
 			// Player
 			// std::cout << "pos x:" << m_player.get_x() << ", y:" << m_player.get_y() << std::endl;
-			//m_rect_player.setPosition(m_player.get_x(), m_player.get_y());
-			m_player.get_sprite().setPosition(m_player.get_x(), m_player.get_y());
-			m_window.draw(m_player.get_sprite());
+			m_rect_player.setPosition(m_player.get_x(), m_player.get_y());
+			m_window.draw(m_rect_player);
+			//m_player.get_sprite().setPosition(m_player.get_x(), m_player.get_y());
+			//m_window.draw(m_player.get_sprite());
+			//std::cout << "bouge" << std::endl;
 
 			// Enemies
 			this->m_list_rect_enemies.clear();
@@ -96,7 +110,7 @@ void Window::refresh_screen()
 void Window::display_info()
 {
 	std::string msg = "SCORE: " + std::to_string(m_player.get_score());
-	std::cout << msg << std::endl;
+	//std::cout << msg << std::endl;
 	sf::Text text_score;
 	
 	if(std::get<0>(m_font_score))

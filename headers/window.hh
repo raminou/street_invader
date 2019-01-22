@@ -14,7 +14,7 @@ class Window
 		State m_state;
         Player m_player;
         Game* m_game;
-        //sf::RectangleShape m_rect_player;
+        sf::RectangleShape m_rect_player;
         std::list<sf::RectangleShape*> m_list_rect_shots;
         std::list<sf::RectangleShape*> m_list_rect_enemies;
 		int m_banner_position;
