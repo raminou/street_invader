@@ -1,18 +1,29 @@
 #include "player.hh"
 
-Player::Player(int x, int y, int hp, std::string name) : Character(x, y, Player::m_player_size, hp), m_name(name) {}
+Player::Player(int x, int y, int hp, std::string name) : Character(x, y, Player::m_player_size, hp), m_name(name), m_score(0) {}
 
 Player::~Player() {}
 
-void Player::move(Direction_t direction) {
+// Getters
+unsigned int Player::get_score() const {
+	return m_score;
+}
+
+std::string Player::get_name() const {
+	return m_name;
+}
+
+void Player::move(Direction_t direction, int min_x, int max_x) {
 	switch(direction) {
 		case LEFT:
             std::cout << "MOVE LEFT: " << this->m_x << std::endl;
-			this->m_x -= m_player_velocity;
+			if(this->m_x > min_x)
+				this->m_x -= m_player_velocity;
             break;
 		case RIGHT:
             std::cout << "MOVE RIGHT" << std::endl;
-			this->m_x += m_player_velocity;
+			if(this->m_x < max_x)
+				this->m_x += m_player_velocity;
             break;
 		default:
 			return;
@@ -26,4 +37,12 @@ Shot* Player::shoot() const {
 void Player::change_position(int x, int y) {
     this->m_x = x;
     this->m_y = y;
+}
+
+void Player::add_score(int s) {
+	m_score += s;
+}
+
+void Player::sub_score(int s) {
+	m_score -= s;
 }

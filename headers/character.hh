@@ -14,6 +14,6 @@ class Character : public Entity {
 		virtual ~Character();
         
         int get_hp() const;
-		virtual void move(Direction_t direction) = 0;  
+		virtual void move(Direction_t direction, int min_x, int max_x) = 0;  
 		virtual Shot* shoot() const = 0;
 };

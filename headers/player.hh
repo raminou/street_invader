@@ -16,8 +16,14 @@ class Player : public Character {
         // Constructor and destructor
 		Player(int x, int y, int hp, std::string name);
 		virtual ~Player();
+	
+		// Getters
+		unsigned int get_score() const;
+		std::string get_name() const;
 
-		void move(Direction_t direction);
+		void move(Direction_t direction, int min_x, int max_x);
         void change_position(int x, int y);
 		Shot* shoot() const;
+		void add_score(int s);
+		void sub_score(int s);
 };

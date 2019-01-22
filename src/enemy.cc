@@ -6,16 +6,18 @@ Enemy::Enemy(int x, int y, int hp): Character(x, y, Enemy::m_enemy_size, hp)
 
 Enemy::~Enemy(){}
 
-void Enemy::move(Direction_t direction) {
+void Enemy::move(Direction_t direction, int min_x, int max_x) {
 	switch(direction) {
 		case UP:
 			m_y -= m_enemy_velocity;
 		case DOWN:
 			m_y += m_enemy_velocity;
 		case LEFT:
-			m_x -= m_enemy_velocity;
+			if(m_x > min_x)
+				m_x -= m_enemy_velocity;
 		case RIGHT:
-			m_x += m_enemy_velocity;
+			if(m_x < max_x)
+				m_x += m_enemy_velocity;
 		default:
 			return;
 	}

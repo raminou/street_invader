@@ -24,6 +24,8 @@ class Game
         Player* get_player() const;
         std::list<Shot*> get_shots() const;
         std::list<Enemy*> get_enemies() const;
+		int get_size_x() const;
+		int get_size_y() const;
         
 		void player_move(Direction_t dir);
 		void player_shot();
