@@ -42,6 +42,12 @@ Window::Window(int size_window_x, int size_window_y):
     }
     m_window_sprite_banner.setTexture(m_window_texture_banner);
     m_window_sprite_banner.setScale(0.25f, 0.25f);
+
+    if (!m_window_texture_background.loadFromFile("resources/texture/background.jpg")) {
+    	std::cout << "Error loading background.jpg" << std::endl;
+    }
+    m_window_sprite_background.setTexture(m_window_texture_background);
+    m_window_sprite_background.setScale(1.25f, 1.25f);
     
 /*
     if (!m_window_texture_logo.loadFromFile("resources/texture/bfm.png")) {
@@ -54,11 +60,16 @@ Window::Window(int size_window_x, int size_window_y):
 
 void Window::refresh_screen()
 {
-	int i;
 	sf::RectangleShape* rect_tmp = nullptr;
 	sf::Sprite sprite;
 	switch(m_state) {
 		case SGame:
+
+			//Background
+			sprite = m_window_sprite_background;
+    		m_window_sprite_background.setPosition(0, 0);
+    		m_window.draw(m_window_sprite_background);
+
 
 			//Banner
 			sprite = m_window_sprite_banner;
@@ -81,7 +92,7 @@ void Window::refresh_screen()
 			// Enemies
 			this->m_list_rect_enemies.clear();
 			// std::cout << "size: " << m_game->get_enemies().size() << std::endl;
-			i = 255;
+			
 			for(auto& ite : m_game->get_enemies())
 			{
 				//rect_tmp = new sf::RectangleShape(sf::Vector2f(Enemy::m_enemy_size, Enemy::m_enemy_size));

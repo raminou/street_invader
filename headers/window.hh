@@ -21,7 +21,9 @@ class Window
 		sf::Texture m_window_texture_logo; 	
         sf::Sprite m_window_sprite_logo;    
         sf::Texture m_window_texture_banner; 	
-        sf::Sprite m_window_sprite_banner;  
+        sf::Sprite m_window_sprite_banner;
+        sf::Texture m_window_texture_background; 	
+        sf::Sprite m_window_sprite_background; 
 		
 		// Font
 		std::tuple<bool, sf::Font> m_font_score;
