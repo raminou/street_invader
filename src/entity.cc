@@ -1,5 +1,4 @@
 #include "entity.hh"
-#include <typeinfo>
 
 Entity::Entity(int x, int y, std::size_t size) : m_x(x), m_y(y), m_size(size) {}
 
@@ -16,7 +15,12 @@ int Entity::get_y() const {
 std::size_t Entity::get_size() const {
 	return m_size;
 }
-
+/*
+sf::Sprite Entity::get_sprite() const
+{
+    return m_sprite;
+}
+*/
 bool Entity::check_hit(const Entity& en, bool inverse) const {
 	/*
 	std::cout << "this size: " << this->get_size() << ",\tx:" << this->get_x() << ",\ty:" << this->get_y() << std::endl;

@@ -50,17 +50,17 @@ void Game::player_move(Direction_t dir)
 void Game::generate()
 {
     // Creating enemies
-    int distance_x = 25;
-    int distance_y = 25;
-    int init_padding_x = 10;
+    int distance_x = 40;
+    int distance_y = 40;
+    int init_padding_x = 20;
     int padding_x = init_padding_x;
     int padding_y = 10;
     
-    for(int i = 0; i < 15; i++)
+    for(int i = 0; i < 45; i++)
     {
         m_list_enemy.push_back(new Enemy(padding_x, padding_y, 0));
         padding_x += Enemy::m_enemy_size + distance_x;
-        if((i+1) % 5 == 0)
+        if((i+1) % 15 == 0)
         {
             padding_x = init_padding_x;
             padding_y += distance_y + Enemy::m_enemy_size;

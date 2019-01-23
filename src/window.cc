@@ -48,7 +48,7 @@ Window::Window(int size_window_x, int size_window_y):
     	std::cout << "Error loading bfm.png" << std::endl;
     }
     m_window_sprite_logo.setTexture(m_window_texture_logo);
-    m_window_sprite_logo.setScale(0.2f, 0.2f);
+    m_window_sprite_logo.setScale(1.0f, 0.5f);
 */
 }
 
@@ -64,7 +64,7 @@ void Window::refresh_screen()
 			sprite = m_window_sprite_banner;
     		m_window_sprite_banner.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_banner);
-    	/*
+    	/*	
     		sprite = m_window_sprite_logo;
     		m_window_sprite_logo.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_logo);
@@ -84,12 +84,16 @@ void Window::refresh_screen()
 			i = 255;
 			for(auto& ite : m_game->get_enemies())
 			{
-				rect_tmp = new sf::RectangleShape(sf::Vector2f(Enemy::m_enemy_size, Enemy::m_enemy_size));
-				rect_tmp->setPosition(ite->get_x(), ite->get_y());
-				rect_tmp->setFillColor(sf::Color(0, i, 255));
-				m_window.draw(*rect_tmp);
-				m_list_rect_enemies.push_back(rect_tmp);
-				i -= 10;
+				//rect_tmp = new sf::RectangleShape(sf::Vector2f(Enemy::m_enemy_size, Enemy::m_enemy_size));
+				//rect_tmp->setPosition(ite->get_x(), ite->get_y());
+				//rect_tmp->setFillColor(sf::Color(0, i, 255));
+				//m_window.draw(*rect_tmp);
+				//m_list_rect_enemies.push_back(rect_tmp);
+				//i -= 10;
+
+				sprite = ite->get_sprite();
+				sprite.setPosition(ite->get_x(), ite->get_y());
+				m_window.draw(sprite);
 			}
 
 			// Shots
@@ -97,7 +101,7 @@ void Window::refresh_screen()
 			for(auto& ite : m_game->get_shots())
 			{
 				rect_tmp = new sf::RectangleShape(sf::Vector2f(Shot::m_shot_size, Shot::m_shot_size));
-				rect_tmp->setPosition(ite->get_x(), ite->get_y());
+				rect_tmp->setPosition(ite->get_x() + 12, ite->get_y());
 				rect_tmp->setFillColor(sf::Color(0, 255, 0));
 				m_window.draw(*rect_tmp);
 				m_list_rect_shots.push_back(rect_tmp);
@@ -159,7 +163,7 @@ void Window::main_loop()
                 case sf::Event::KeyPressed:
                     switch(event.key.code)
                     {
-                        case sf::Keyboard::Left:
+                    	case sf::Keyboard::Left:
                             m_game->player_move(LEFT);
                             std::cout << "LEFT" << std::endl;
                             break;

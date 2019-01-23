@@ -2,6 +2,13 @@
 
 Enemy::Enemy(int x, int y, int hp): Character(x, y, Enemy::m_enemy_size, hp)
 {
+	if (!m_texture.loadFromFile("resources/texture/gilet_jaune.png")) {
+    	std::cout << "Error loading macron.png" << std::endl;
+    }
+    m_texture.setSmooth(true);
+    m_sprite.setTexture(m_texture);
+    m_sprite.setPosition(x, y);
+    m_sprite.setScale(0.15f, 0.15f);
 }
 
 Enemy::~Enemy(){}
