@@ -61,10 +61,11 @@ void Window::refresh_screen()
 		case SGame:
 
 			//Banner
-		
+			sprite = m_window_sprite_banner;
     		m_window_sprite_banner.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_banner);
     		
+    		sprite = m_window_sprite_logo;
     		m_window_sprite_logo.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_logo);
 		
