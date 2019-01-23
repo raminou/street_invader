@@ -41,15 +41,15 @@ Window::Window(int size_window_x, int size_window_y):
     	std::cout << "Error loading banner.png" << std::endl;
     }
     m_window_sprite_banner.setTexture(m_window_texture_banner);
-    m_window_sprite_banner.setScale(0.5f, 0.25f);
+    m_window_sprite_banner.setScale(0.25f, 0.25f);
     
-
+/*
     if (!m_window_texture_logo.loadFromFile("resources/texture/bfm.png")) {
     	std::cout << "Error loading bfm.png" << std::endl;
     }
     m_window_sprite_logo.setTexture(m_window_texture_logo);
     m_window_sprite_logo.setScale(0.2f, 0.2f);
-
+*/
 }
 
 void Window::refresh_screen()
@@ -64,16 +64,15 @@ void Window::refresh_screen()
 			sprite = m_window_sprite_banner;
     		m_window_sprite_banner.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_banner);
-    		
+    	/*
     		sprite = m_window_sprite_logo;
     		m_window_sprite_logo.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_logo);
-		
+		*/
 			// Player
 			// std::cout << "pos x:" << m_player.get_x() << ", y:" << m_player.get_y() << std::endl;
 			//m_rect_player.setPosition(m_player.get_x(), m_player.get_y());
 			//m_window.draw(m_rect_player);
-			std::cout << "x = " << m_player.get_x() << " y = " << m_player.get_y() << std::endl;
 			sprite = m_player.get_sprite();
 			sprite.setPosition(m_player.get_x(), m_player.get_y());
 			m_window.draw(sprite);
