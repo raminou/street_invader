@@ -56,6 +56,7 @@ void Window::refresh_screen()
 {
 	int i;
 	sf::RectangleShape* rect_tmp = nullptr;
+	sf::Sprite sprite;
 	switch(m_state) {
 		case SGame:
 
@@ -72,8 +73,9 @@ void Window::refresh_screen()
 			//m_rect_player.setPosition(m_player.get_x(), m_player.get_y());
 			//m_window.draw(m_rect_player);
 			std::cout << "x = " << m_player.get_x() << " y = " << m_player.get_y() << std::endl;
-			m_player.get_sprite().setPosition(m_player.get_x(), m_player.get_y());
-			m_window.draw(m_player.get_sprite());
+			sprite = m_player.get_sprite();
+			sprite.setPosition(m_player.get_x(), m_player.get_y());
+			m_window.draw(sprite);
 			//std::cout << "bouge" << std::endl;
 
 			// Enemies
