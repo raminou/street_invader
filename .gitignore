@@ -1,3 +1,7 @@
 *.o
 game
 SFML-2.5.1/*
+CMakeFiles/*
+CMakeCache.txt
+cmake_install.cmake
+Makefile
