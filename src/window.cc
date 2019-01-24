@@ -3,7 +3,7 @@
 Window::Window(int size_window_x, int size_window_y):
 
     m_window(sf::VideoMode(size_window_x, size_window_y), "Street Invaders"),
-	m_state(SGame),
+	m_state(SMenu),
     m_player(0, 0, Player::m_player_size, 0, "E.Macron"),
     m_game(nullptr),
     m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),

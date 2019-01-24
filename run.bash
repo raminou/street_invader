@@ -20,4 +20,4 @@ fi
 echo -e "\n\n\n# Compiling"
 make
 echo -e "\n\n\n# Running"
-./build/game
+./build/Debug/game
