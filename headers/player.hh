@@ -13,11 +13,11 @@ class Player : public Character {
         //sf::Sprite m_player_sprite;     //Sprite of the player
 
 	public:
-		static constexpr std::size_t m_player_size = 20;		//Size of a Player object (value to modify)
+		static constexpr std::size_t m_player_size = 30;		//Size of a Player object (value to modify)
 		static constexpr std::size_t m_player_velocity = 5;		//Velocity of a Shot object (value to modify)
 
         // Constructor and destructor
-		Player(int x, int y, int hp, std::string name);
+		Player(int x, int y, int size, int hp, std::string name);
 		virtual ~Player();
 	
 		// Getters

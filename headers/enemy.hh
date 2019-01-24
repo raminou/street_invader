@@ -10,7 +10,7 @@ class Enemy: public Character
 		static constexpr std::size_t score_enemy = 100;
 
 
-		Enemy(int x, int y, int hp);
+		Enemy(int x, int y, int size, int hp);
 		virtual ~Enemy();
         
         void reduce_hp();

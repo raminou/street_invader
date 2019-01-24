@@ -5,7 +5,8 @@ Game::Game(int size_x, int size_y, Player* p):
     m_size_window_x(size_x),
     m_size_window_y(size_y),
     m_delay(Game::delay_down),
-    m_player(p)
+    m_player(p),
+    m_game_state(Unfinished)
 {
     generate();
 }
@@ -40,23 +41,35 @@ int Game::get_size_y() const {
 // Actions
 void Game::player_shot()
 {
-	m_list_shot.push_back(m_player->shoot());
+    if(m_game_state == Unfinished)
+	    m_list_shot.push_back(m_player->shoot());
 }
 
 void Game::player_move(Direction_t dir)
 {
-    m_player->move(dir, 0, m_size_window_x - Player::m_player_size);
+    if(m_game_state == Unfinished)
+        m_player->move(dir, 0, m_size_window_x - Player::m_player_size);
 }
 
 void Game::generate()
 {
-    // Creating enemies
-    int distance_x = 40;
-    int distance_y = 40;
-    int init_padding_x = 20;
-    int padding_x = init_padding_x;
-    int padding_y = 10;
+    int nb_x = 10;
+    int nb_y = 3;
+    int size_enemy = 20;
     
+    // Creating enemies
+    int distance_x = (m_size_window_x - nb_x * size_enemy)/(nb_x + 1);
+    int distance_y = 40;
+    
+    for(int line = 0; line < nb_y; line++)
+    {
+        for(int col = 0; col < nb_x; col++)
+        {
+            m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
+                                   distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));
+        }
+    }
+    /*
     for(int i = 0; i < 45; i++)
     {
         m_list_enemy.push_back(new Enemy(padding_x, padding_y, 0));
@@ -66,7 +79,7 @@ void Game::generate()
             padding_x = init_padding_x;
             padding_y += distance_y + Enemy::m_enemy_size;
         }
-    }
+    }*/
     
     // m_list_enemy.push_back(new Enemy(400, 50, 0));
     
@@ -76,22 +89,27 @@ void Game::generate()
 
 void Game::progress()
 {
-    m_delay--;
-    if(m_delay == 0)
+    if(m_game_state == Unfinished)
     {
-        std::cout << "down" << std::endl;
-        for(auto& ite: m_list_enemy)
+        m_delay--;
+        if(m_delay == 0)
         {
-            ite->move(DOWN, 0, m_size_window_x);
-            if((int) (ite->get_y() + ite->get_size()) > m_size_window_y)
+            std::cout << "down" << std::endl;
+            for(auto& ite: m_list_enemy)
             {
-                // GJ ont gagné
+                ite->move(DOWN, 0, m_size_window_x);
+                if((int) (ite->get_y() + ite->get_size()) > (int)(m_size_window_y - m_player->get_size()))
+                {
+                    // GJ ont gagné
+                    std::cout << "GJ WON" << std::endl;
+                    m_game_state = EnemiesWon;
+                }
             }
+            m_delay = Game::delay_down;
         }
-        m_delay = Game::delay_down;
+
+        progress_shot();
     }
-    
-    progress_shot();
 }
 
 void Game::progress_shot() {
@@ -150,5 +168,8 @@ void Game::progress_shot() {
             }
         }
     }
+    
+    if(m_list_enemy.size() == 0)
+        m_game_state = PlayerWon;
     // std::cout << "endprogressshot" << std::endl;
 }

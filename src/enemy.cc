@@ -1,6 +1,6 @@
 #include "enemy.hh"
 
-Enemy::Enemy(int x, int y, int hp): Character(x, y, Enemy::m_enemy_size, hp)
+Enemy::Enemy(int x, int y, int size, int hp): Character(x, y, size, hp)
 {
 	if (!m_texture.loadFromFile("resources/texture/gilet_jaune.png")) {
     	std::cout << "Error loading macron.png" << std::endl;
