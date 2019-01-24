@@ -20,7 +20,8 @@ class Game
 		GameState m_game_state;
 	
 	public:
-		static constexpr std::size_t delay_down = 150;
+		static constexpr std::size_t delay_down = 50;
+		static int left_right;
         // Constructor and Destructor
 		Game(int size_window_x, int size_window_y, Player* p);
         ~Game();

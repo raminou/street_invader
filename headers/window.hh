@@ -27,8 +27,8 @@ class Window
 		
 		// Buttons
 		std::map<std::string, Button> m_buttons;
-		/*Button m_button_start;
-		Button m_button_quit;*/
+		Button m_button_start;
+		Button m_button_quit;
 		
 		// Font
 		std::tuple<bool, sf::Font> m_font_score;

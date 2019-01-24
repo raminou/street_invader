@@ -20,7 +20,7 @@ void Enemy::move(Direction_t direction, int min_x, int max_x) {
 		case DOWN:
 			m_y += m_enemy_velocity;
 		case LEFT:
-			if(m_x > min_x)
+			if(m_x > min_x) 
 				m_x -= m_enemy_velocity;
 		case RIGHT:
 			if(m_x < max_x)

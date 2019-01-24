@@ -1,5 +1,6 @@
 #include "game.hh"
 
+int Game::left_right = 0;
 // Constructor and Destructor
 Game::Game(int size_x, int size_y, Player* p):
     m_size_window_x(size_x),
@@ -94,10 +95,38 @@ void Game::progress()
         m_delay--;
         if(m_delay == 0)
         {
-            std::cout << "down" << std::endl;
+            //std::cout << "down" << std::endl;
             for(auto& ite: m_list_enemy)
             {
-                ite->move(DOWN, 0, m_size_window_x);
+            	std::cout << "left_right = " << Game::left_right << std::endl;
+            	//Go to the left
+	        	if (Game::left_right == 0) {
+	        		if (ite->get_x() > 0) {
+	        			ite->move(LEFT, 0, m_size_window_x);
+	        			std::cout << "coucou1" << std::endl;
+	        		}
+	        		//Go down if touches the edge
+	        		else  {
+	        			Game::left_right = 1;
+	        			ite->move(DOWN, 0, m_size_window_x);
+	        			std::cout << "coucou2" << std::endl;
+	        		}
+	        	}
+	        	//Go to the right
+	        	else {
+	        		if ((int)(ite->get_x() + ite->get_size()) < (int)m_size_window_x) {
+	        			ite->move(RIGHT, 0, m_size_window_x);
+	        		}
+	        		//Go down if touches the edge
+	        		else {
+	        			Game::left_right = 0;
+	        			ite->move(DOWN, 0, m_size_window_x);
+	        		}
+	        	}
+
+
+
+            	//ite->move(DOWN, 0, m_size_window_x);
                 if((int) (ite->get_y() + ite->get_size()) > (int)(m_size_window_y - m_player->get_size()))
                 {
                     // GJ ont gagné

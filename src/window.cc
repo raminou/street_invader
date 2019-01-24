@@ -1,9 +1,10 @@
 #include "window.hh"
 
 Window::Window(int size_window_x, int size_window_y):
-    m_window(sf::VideoMode(size_window_x, size_window_y), "TEST"),
-	m_state(SMenu),
-    m_player(0, 0, Player::m_player_size, 0, "toto"),
+
+    m_window(sf::VideoMode(size_window_x, size_window_y), "Street Invaders"),
+	m_state(SGame),
+    m_player(0, 0, Player::m_player_size, 0, "E.Macron"),
     m_game(nullptr),
     m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),
 	m_banner_position(size_window_x),
@@ -15,7 +16,7 @@ Window::Window(int size_window_x, int size_window_y):
     m_rect_player.setFillColor(sf::Color(255, 0, 0));
 	
 	// Load font if it is possible
-	if(!std::get<1>(m_font_score).loadFromFile("resources/font/firstgradelili.ttf")) {
+	if(!std::get<1>(m_font_score).loadFromFile("resources/font/univers-condensed-bold.ttf")) {
 		std::cout << "Error loading firstgradelili font" << std::endl;
 	}
 	else
@@ -28,27 +29,23 @@ Window::Window(int size_window_x, int size_window_y):
 	else
 		std::get<0>(m_font_banner) = true;
 
-/*
-	if (!m_player.get_texture().loadFromFile("resources/texture/macron.png")) {
-    	std::cout << "Error loading macron.png" << std::endl;
-    }
-    m_player.get_texture().setSmooth(true);
-    m_player.get_sprite().setTexture(m_player.get_texture());
-    m_player.get_sprite().setPosition(m_player.get_x(), m_player.get_y());
-    m_player.get_sprite().setScale(0.2f, 0.2f);
-*/
 	if (!m_window_texture_banner.loadFromFile("resources/texture/banner.png")) {
     	std::cout << "Error loading banner.png" << std::endl;
     }
-    m_window_sprite_banner.setTexture(m_window_texture_banner);
-    m_window_sprite_banner.setScale(0.25f, 0.25f);
+    else {
+    	m_window_sprite_banner.setTexture(m_window_texture_banner);
+    	m_window_sprite_banner.setScale(0.5f, 0.25f);
+    }
+    
 
-    if (!m_window_texture_background.loadFromFile("resources/texture/background.jpg")) {
+    if (!m_window_texture_background.loadFromFile("resources/texture/background.png")) {
     	std::cout << "Error loading background.jpg" << std::endl;
     }
-    m_window_sprite_background.setTexture(m_window_texture_background);
-    m_window_sprite_background.setScale(1.25f, 1.25f);
-    
+    else {
+	    m_window_sprite_background.setTexture(m_window_texture_background);
+	    m_window_sprite_background.setScale(1.25f, 1.25f);
+    }
+
 	// Buttons
 	m_buttons["start"] = Button(250, 150, 100, 50, sf::Text());
 	m_buttons["quit"] = Button(250, 250, 100, 50, sf::Text());
@@ -64,13 +61,6 @@ Window::Window(int size_window_x, int size_window_y):
 	if(std::get<0>(m_font_banner))
 		m_buttons["quit"].get_text().setFont(std::get<1>(m_font_banner));
 	m_buttons["quit"].get_text().setCharacterSize(50);
-/*
-    if (!m_window_texture_logo.loadFromFile("resources/texture/bfm.png")) {
-    	std::cout << "Error loading bfm.png" << std::endl;
-    }
-    m_window_sprite_logo.setTexture(m_window_texture_logo);
-    m_window_sprite_logo.setScale(1.0f, 0.5f);
-*/
 }
 
 void Window::refresh_screen()
@@ -89,20 +79,15 @@ void Window::refresh_screen()
     		m_window_sprite_background.setPosition(0, 0);
     		m_window.draw(m_window_sprite_background);
 
-
 			//Banner
 			sprite = m_window_sprite_banner;
     		m_window_sprite_banner.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_banner);
-    	/*	
-    		sprite = m_window_sprite_logo;
-    		m_window_sprite_logo.setPosition(0, m_game->get_size_y() + 50);
-    		m_window.draw(m_window_sprite_logo);
-		*/
-			// Player
+
 			sprite = m_player.get_sprite();
 			sprite.setPosition(m_player.get_x(), m_player.get_y());
 			m_window.draw(sprite);
+			
 
 			// Enemies			
 			for(auto& ite : m_game->get_enemies())
@@ -116,7 +101,7 @@ void Window::refresh_screen()
 			for(auto& ite : m_game->get_shots())
 			{
 				rect_tmp = sf::RectangleShape(sf::Vector2f(Shot::m_shot_size, Shot::m_shot_size));
-				rect_tmp.setPosition(ite->get_x() + 12, ite->get_y());
+				rect_tmp.setPosition(ite->get_x(), ite->get_y());
 				rect_tmp.setFillColor(sf::Color(0, 255, 0));
 				m_window.draw(rect_tmp);
 			}
@@ -126,7 +111,7 @@ void Window::refresh_screen()
 		case SMenu:
 			if(std::get<0>(m_font_banner))
 				title.setFont(std::get<1>(m_font_banner));
-			title.setString("Street invader");
+			title.setString("Street Invaders");
 			title.setFillColor(sf::Color::Yellow);
 			title.setCharacterSize(50);
 			title.setPosition(250, 50);
@@ -154,8 +139,7 @@ void Window::refresh_screen()
 
 void Window::display_info()
 {
-	std::string msg = "SCORE: " + std::to_string(m_player.get_score());
-	//std::cout << msg << std::endl;
+	std::string msg = "SCORE : " + std::to_string(m_player.get_score());
 	sf::Text text_score;
 	
 	if(std::get<0>(m_font_score))
@@ -163,27 +147,23 @@ void Window::display_info()
 	
 	text_score.setString(msg);
 	text_score.setCharacterSize(24);
-	text_score.setFillColor(sf::Color::Blue);
+	text_score.setFillColor(sf::Color::White);
 	text_score.setPosition(10, m_game->get_size_y());
 	text_score.setStyle(sf::Text::Bold);
 	m_window.draw(text_score);
 	
+	
 	// Banner
-	msg = std::to_string(m_game->get_enemies().size() * 100) + " GILETS JAUNES ENCORE DANS LES RUES. EMMANUEL MACRON SUR LE TERRAIN POUR LES ARRETER.";
+	msg = std::to_string(m_game->get_enemies().size() * 100) + " GILETS JAUNES ENCORE DANS LES RUES.\nEMMANUEL MACRON SUR LE TERRAIN POUR LES ARRETER.";
 	sf::Text text_banner;
 	if(std::get<0>(m_font_banner))
 		text_banner.setFont(std::get<1>(m_font_banner));
 	
 	text_banner.setString(msg);
-	text_banner.setCharacterSize(30);
+	text_banner.setCharacterSize(20);
 	text_banner.setFillColor(sf::Color::White);
-	text_banner.setPosition(m_banner_position, m_game->get_size_y() + 55);
+	text_banner.setPosition(115, m_game->get_size_y() + 50);
 	m_window.draw(text_banner);
-	// sf::RectangleShape;
-	
-	m_banner_position -= Window::banner_velocity;
-	if(m_banner_position + text_banner.getLocalBounds().width < 0)
-		m_banner_position = m_game->get_size_x();
 }
 
 void Window::main_loop()
