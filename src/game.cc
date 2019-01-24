@@ -4,6 +4,7 @@
 Game::Game(int size_x, int size_y, Player* p):
     m_size_window_x(size_x),
     m_size_window_y(size_y),
+    m_delay(Game::delay_down),
     m_player(p)
 {
     generate();
@@ -23,7 +24,7 @@ Player* Game::get_player() const {
 std::list<Shot*> Game::get_shots() const {
     return m_list_shot;
 }
-
+    
 std::list<Enemy*> Game::get_enemies() const {
     return m_list_enemy;
 }
@@ -71,6 +72,26 @@ void Game::generate()
     
     // Setting the player in the middle of the screen
     m_player->change_position(m_size_window_x/2 - Player::m_player_size/2, m_size_window_y - 25);
+}
+
+void Game::progress()
+{
+    m_delay--;
+    if(m_delay == 0)
+    {
+        std::cout << "down" << std::endl;
+        for(auto& ite: m_list_enemy)
+        {
+            ite->move(DOWN, 0, m_size_window_x);
+            if((int) (ite->get_y() + ite->get_size()) > m_size_window_y)
+            {
+                // GJ ont gagné
+            }
+        }
+        m_delay = Game::delay_down;
+    }
+    
+    progress_shot();
 }
 
 void Game::progress_shot() {

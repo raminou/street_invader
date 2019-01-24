@@ -122,6 +122,8 @@ void Window::refresh_screen()
 			break;
 		case SMenu:
 			break;
+		case SEndGame:
+			break;
 	}
 }
 
@@ -196,7 +198,7 @@ void Window::main_loop()
         }
 
         m_window.clear();
-        m_game->progress_shot();
+        m_game->progress();
 
         // Draw
         refresh_screen();

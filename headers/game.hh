@@ -11,11 +11,13 @@ class Game
 	private:
 		int m_size_window_x;
 		int m_size_window_y;
+		int m_delay;
 		Player* m_player;
 		std::list<Shot*> m_list_shot;
 		std::list<Enemy*> m_list_enemy;
 	
 	public:
+		static constexpr std::size_t delay_down = 100;
         // Constructor and Destructor
 		Game(int size_window_x, int size_window_y, Player* p);
         ~Game();
@@ -29,6 +31,7 @@ class Game
         
 		void player_move(Direction_t dir);
 		void player_shot();
+		void progress();
 		void progress_shot();
 		void generate();
 };

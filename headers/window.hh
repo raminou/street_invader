@@ -5,7 +5,7 @@
 #include <tuple>
 #include "game.hh"
 
-typedef enum t_state {SMenu, SGame} State;
+typedef enum t_state {SMenu, SGame, SEndGame} State;
 
 class Window
 {
