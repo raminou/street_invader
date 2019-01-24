@@ -2,16 +2,16 @@
 
 Window::Window(int size_window_x, int size_window_y):
     m_window(sf::VideoMode(size_window_x, size_window_y), "TEST"),
-	m_state(SGame),
+	m_state(SMenu),
     m_player(0, 0, Player::m_player_size, 0, "toto"),
     m_game(nullptr),
     m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),
 	m_banner_position(size_window_x),
+	m_buttons(std::map<std::string, Button>()),
 	m_font_score(std::make_tuple(false, sf::Font())),
 	m_font_banner(std::make_tuple(false, sf::Font()))
 {
 	m_window.setFramerateLimit(60);
-    m_game = new Game(size_window_x, size_window_y-100, &m_player);
     m_rect_player.setFillColor(sf::Color(255, 0, 0));
 	
 	// Load font if it is possible
@@ -49,6 +49,21 @@ Window::Window(int size_window_x, int size_window_y):
     m_window_sprite_background.setTexture(m_window_texture_background);
     m_window_sprite_background.setScale(1.25f, 1.25f);
     
+	// Buttons
+	m_buttons["start"] = Button(250, 150, 100, 50, sf::Text());
+	m_buttons["quit"] = Button(250, 250, 100, 50, sf::Text());
+	
+	m_buttons["start"].get_text().setString("Start");
+	m_buttons["start"].get_text().setFillColor(sf::Color::Red);
+	if(std::get<0>(m_font_banner))
+			m_buttons["start"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons["start"].get_text().setCharacterSize(50);
+		
+	m_buttons["quit"].get_text().setString("Quit");
+	m_buttons["quit"].get_text().setFillColor(sf::Color::Red);
+	if(std::get<0>(m_font_banner))
+		m_buttons["quit"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons["quit"].get_text().setCharacterSize(50);
 /*
     if (!m_window_texture_logo.loadFromFile("resources/texture/bfm.png")) {
     	std::cout << "Error loading bfm.png" << std::endl;
@@ -62,6 +77,10 @@ void Window::refresh_screen()
 {
 	sf::RectangleShape rect_tmp;
 	sf::Sprite sprite;
+	sf::Text title;
+	sf::Text button_start;
+	sf::Text button_quit;
+	
 	switch(m_state) {
 		case SGame:
 
@@ -105,6 +124,27 @@ void Window::refresh_screen()
 			display_info();
 			break;
 		case SMenu:
+			if(std::get<0>(m_font_banner))
+				title.setFont(std::get<1>(m_font_banner));
+			title.setString("Street invader");
+			title.setFillColor(sf::Color::Yellow);
+			title.setCharacterSize(50);
+			title.setPosition(250, 50);
+			m_window.draw(title);
+			
+			/*
+			if(std::get<0>(m_font_banner))
+				button_start.setFont(std::get<1>(m_font_banner));
+			button_start.setString("Street invader");
+			button_start.setFillColor(sf::Color::Yellow);
+			button_start.setCharacterSize(30);
+			button_start.setPosition(250, 150);
+			m_window.draw(button_start);*/
+			for(std::map<std::string, Button>::iterator ite = m_buttons.begin(); ite != m_buttons.end(); ite++)
+				ite->second.draw(m_window);
+			
+			/*m_button_start.draw(m_window);
+			m_button_quit.draw(m_window);*/
 			
 			break;
 		case SEndGame:
@@ -153,6 +193,25 @@ void Window::main_loop()
         sf::Event event;
         while (m_window.pollEvent(event))
         {
+			if(m_state == SMenu && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
+				
+				for(std::map<std::string, Button>::iterator ite = m_buttons.begin(); ite != m_buttons.end(); ite++)
+				{
+					if(ite->second.got_clicked(localPosition.x, localPosition.y))
+					{
+						if(ite->first == "start")
+						{
+							m_game = new Game(m_window.getSize().x, m_window.getSize().y - 100, &m_player);
+							m_state = SGame;
+						}
+						else if(ite->first == "quit")
+							m_window.close();
+					}
+				}
+			}
+			
             switch (event.type)
             {
                 case sf::Event::Closed:
@@ -183,7 +242,11 @@ void Window::main_loop()
         }
 
         m_window.clear();
-        m_game->progress();
+		
+		if(m_state == SGame)
+		{
+        	m_game->progress();
+		}
 
         // Draw
         refresh_screen();
