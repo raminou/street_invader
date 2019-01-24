@@ -15,8 +15,6 @@ class Window
         Player m_player;
         Game* m_game;
         sf::RectangleShape m_rect_player;
-        std::list<sf::RectangleShape*> m_list_rect_shots;
-        std::list<sf::RectangleShape*> m_list_rect_enemies;
 		int m_banner_position;
 		sf::Texture m_window_texture_logo; 	
         sf::Sprite m_window_sprite_logo;    

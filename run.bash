@@ -15,8 +15,9 @@ if [ ! -d "build" ] || [ ! -f "build/game" ] ; then
 		echo -e "\n\n\n# Creating Makefile"
 		cmake -G"Unix Makefiles"
 	fi
-	echo -e "\n\n\n# Compiling"
-	make
 fi
+
+echo -e "\n\n\n# Compiling"
+make
 echo -e "\n\n\n# Running"
 ./build/game

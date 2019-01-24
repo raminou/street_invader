@@ -60,7 +60,7 @@ Window::Window(int size_window_x, int size_window_y):
 
 void Window::refresh_screen()
 {
-	sf::RectangleShape* rect_tmp = nullptr;
+	sf::RectangleShape rect_tmp;
 	sf::Sprite sprite;
 	switch(m_state) {
 		case SGame:
@@ -81,46 +81,31 @@ void Window::refresh_screen()
     		m_window.draw(m_window_sprite_logo);
 		*/
 			// Player
-			// std::cout << "pos x:" << m_player.get_x() << ", y:" << m_player.get_y() << std::endl;
-			//m_rect_player.setPosition(m_player.get_x(), m_player.get_y());
-			//m_window.draw(m_rect_player);
 			sprite = m_player.get_sprite();
 			sprite.setPosition(m_player.get_x(), m_player.get_y());
 			m_window.draw(sprite);
-			//std::cout << "bouge" << std::endl;
 
-			// Enemies
-			this->m_list_rect_enemies.clear();
-			// std::cout << "size: " << m_game->get_enemies().size() << std::endl;
-			
+			// Enemies			
 			for(auto& ite : m_game->get_enemies())
 			{
-				//rect_tmp = new sf::RectangleShape(sf::Vector2f(Enemy::m_enemy_size, Enemy::m_enemy_size));
-				//rect_tmp->setPosition(ite->get_x(), ite->get_y());
-				//rect_tmp->setFillColor(sf::Color(0, i, 255));
-				//m_window.draw(*rect_tmp);
-				//m_list_rect_enemies.push_back(rect_tmp);
-				//i -= 10;
-
 				sprite = ite->get_sprite();
 				sprite.setPosition(ite->get_x(), ite->get_y());
 				m_window.draw(sprite);
 			}
 
 			// Shots
-			this->m_list_rect_shots.clear();
 			for(auto& ite : m_game->get_shots())
 			{
-				rect_tmp = new sf::RectangleShape(sf::Vector2f(Shot::m_shot_size, Shot::m_shot_size));
-				rect_tmp->setPosition(ite->get_x() + 12, ite->get_y());
-				rect_tmp->setFillColor(sf::Color(0, 255, 0));
-				m_window.draw(*rect_tmp);
-				m_list_rect_shots.push_back(rect_tmp);
+				rect_tmp = sf::RectangleShape(sf::Vector2f(Shot::m_shot_size, Shot::m_shot_size));
+				rect_tmp.setPosition(ite->get_x() + 12, ite->get_y());
+				rect_tmp.setFillColor(sf::Color(0, 255, 0));
+				m_window.draw(rect_tmp);
 			}
 
 			display_info();
 			break;
 		case SMenu:
+			
 			break;
 		case SEndGame:
 			break;
