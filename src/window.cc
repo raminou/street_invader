@@ -29,7 +29,7 @@ Window::Window(int size_window_x, int size_window_y):
 	}
 	else
 		std::get<0>(m_font_banner) = true;
-
+    
 	if (!m_window_texture_banner.loadFromFile("resources/texture/banner.png")) {
     	std::cout << "Error loading banner.png" << std::endl;
     }
@@ -109,10 +109,6 @@ void Window::refresh_screen()
 	sf::RectangleShape rect_tmp;
 	sf::Sprite sprite;
 	sf::Text title;
-	sf::Text subtitle;
-	sf::Text stats1;
-	sf::Text stats2;
-	sf::Text stats3;
 	
 	switch(m_state) {
 		case SGame:
@@ -179,11 +175,6 @@ void Window::refresh_screen()
 				sprite = m_window_sprite_background_win;
     			m_window_sprite_background_win.setPosition(0, 0);
     			m_window.draw(m_window_sprite_background_win);
-/*
-				title.setString("The democracy has been kept safe !");
-				title.setFillColor(sf::Color::Blue);
-				title.setPosition(50, 50);
-*/
 			}
 			else
 			{
@@ -191,65 +182,17 @@ void Window::refresh_screen()
     			m_window_sprite_background_lose.setPosition(0, 0);
     			m_window.draw(m_window_sprite_background_lose);
     		}
-				title.setString("Apres " + std::to_string(m_game->get_time()) + "h dans les rues et " + 
-											std::to_string(m_game->get_nb_shot() * 100) + " euros de depense, " +
-											std::to_string(m_player.get_score()) + " Gilets Jaunes repousses.");
+
+    			title.setString(L"Après " + std::to_wstring(m_game->get_time()) + L"h dans les rues et " + 
+    										std::to_wstring(m_game->get_nb_shot() * 100) + L" euros de dépense, " + 
+    										std::to_wstring(m_player.get_score()) + L" Gilets Jaunes repoussés.");
 				title.setFillColor(sf::Color::Black);
 				title.setPosition(110, m_game->get_size_y() + 58);
 
 			
 			title.setCharacterSize(18);
 			m_window.draw(title);
-			
-			// Subtitle
-			if(std::get<0>(m_font_banner))
-				subtitle.setFont(std::get<1>(m_font_banner));
-	/*		
-			if(m_game->get_game_state() == PlayerWon)
-			{
-				subtitle.setString("Good Job");
-				subtitle.setFillColor(sf::Color::Red);
-				subtitle.setPosition(285, 125);
-			}
-			else
-			{
-			
-				subtitle.setString("Prepare yourself for the revolution");
-				subtitle.setFillColor(sf::Color::Red);
-				subtitle.setPosition(200, 125);
-			
-			}
-			subtitle.setCharacterSize(35);
-			m_window.draw(subtitle);
-	*/
-/*			
-			// Stats1
-			if(std::get<0>(m_font_banner))
-				stats1.setFont(std::get<1>(m_font_banner));
-			stats1.setString(std::to_wstring(m_player.get_score()) + L" Gilets Jaunes repoussés");
-			stats1.setFillColor(sf::Color::Red);
-			stats1.setPosition(200, 200);
-			stats1.setCharacterSize(35);
-			m_window.draw(stats1);
-			
-			// Stats2
-			if(std::get<0>(m_font_banner))
-				stats2.setFont(std::get<1>(m_font_banner));
-			stats2.setString(std::to_wstring(m_game->get_nb_shot() * 100) + L" € de dépense");
-			stats2.setFillColor(sf::Color::Red);
-			stats2.setPosition(250, 275);
-			stats2.setCharacterSize(35);
-			m_window.draw(stats2);
-			
-			// Stats3
-			if(std::get<0>(m_font_banner))
-				stats3.setFont(std::get<1>(m_font_banner));
-			stats3.setString(std::to_wstring(m_game->get_time()) + L"h dans la rue");
-			stats3.setFillColor(sf::Color::Red);
-			stats3.setPosition(250, 350);
-			stats3.setCharacterSize(35);
-			m_window.draw(stats3);
-*/			
+		
 			// Buttons
 			for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
 				ite->second.draw(m_window);
@@ -355,15 +298,12 @@ void Window::main_loop()
                     {
                     	case sf::Keyboard::Left:
                             m_game->player_move(LEFT);
-                            std::cout << "LEFT" << std::endl;
                             break;
                         case sf::Keyboard::Right:
                             m_game->player_move(RIGHT);
-                            std::cout << "Right" << std::endl;
                             break;
                         case sf::Keyboard::Space:
                             m_game->player_shot();
-                            std::cout << "space" << std::endl;
                             break;
                         default:
                             break;

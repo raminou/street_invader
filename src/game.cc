@@ -1,6 +1,7 @@
 #include "game.hh"
 
 int Game::left_right = 0;
+
 // Constructor and Destructor
 Game::Game(int size_x, int size_y, Player* p):
     m_size_window_x(size_x),
@@ -92,7 +93,7 @@ void Game::generate()
     // Creating enemies
     int distance_x = (m_size_window_x - nb_x * size_enemy)/(nb_x + 1);
     int distance_y = 40;
-  
+
     for(int line = 0; line < nb_y; line++)
     {
         for(int col = 0; col < nb_x; col++)
@@ -101,21 +102,7 @@ void Game::generate()
                                    distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));
         }
     }
-
 	m_nb_enemies_begin = nb_x * nb_y;
-    /*
-    for(int i = 0; i < 45; i++)
-    {
-        m_list_enemy.push_back(new Enemy(padding_x, padding_y, 0));
-        padding_x += Enemy::m_enemy_size + distance_x;
-        if((i+1) % 15 == 0)
-        {
-            padding_x = init_padding_x;
-            padding_y += distance_y + Enemy::m_enemy_size;
-        }
-    }*/
-    
-    // m_list_enemy.push_back(new Enemy(400, 50, 0));
     
     // Setting the player in the middle of the screen
 	m_player->reset_score();
@@ -129,7 +116,6 @@ void Game::progress()
         m_delay--;
         if(m_delay == 0)
         {
-            //std::cout << "down" << std::endl;
             for(auto& ite: m_list_enemy)
             {
             	//Go to the left
@@ -164,7 +150,6 @@ void Game::progress()
                 if((int) (ite->get_y() + ite->get_size()) > (int)(m_size_window_y - m_player->get_size()))
                 {
                     // GJ ont gagné
-                    std::cout << "GJ WON" << std::endl;
 					m_time_end = std::time(nullptr);
                     m_game_state = EnemiesWon;
                 }
@@ -177,7 +162,6 @@ void Game::progress()
 }
 
 void Game::progress_shot() {
-    // std::cout << "sizel: " << m_list_shot.size() << std::endl;
     // Move shots and erase if they are out of the window
     std::list<Shot*>::iterator ite_shot = m_list_shot.begin();
     while(ite_shot != m_list_shot.end())
@@ -192,8 +176,6 @@ void Game::progress_shot() {
     ite_shot = m_list_shot.begin();
     while(ite_shot != m_list_shot.end())
     {
-        // std::cout << "ite x: " << (*ite)->get_x() << ", y: " << (*ite)->get_y() << std::endl;
-
         bool hit = false;
         Player* tmp_author = dynamic_cast<Player*>((*ite_shot)->get_author());
         if(tmp_author != nullptr)
@@ -206,7 +188,6 @@ void Game::progress_shot() {
                 if((*ite_enemy)->check_hit((Entity&)(**ite_shot)))
                 {
                     hit = false;
-                    std::cout << "enemy hit" << std::endl;
                     (*ite_enemy)->reduce_hp();
                     
                     tmp_author->add_score(Enemy::score_enemy);
@@ -239,5 +220,4 @@ void Game::progress_shot() {
 		m_time_end = std::time(nullptr);
         m_game_state = PlayerWon;
 	}
-    // std::cout << "endprogressshot" << std::endl;
 }

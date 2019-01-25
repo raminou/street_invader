@@ -6,8 +6,8 @@
 class Button
 {
 	private:
-		int m_x;
-		int m_y;
+		int m_x;		//Position in x
+		int m_y;		//Position in y
 		std::size_t m_size_x;
 		std::size_t m_size_y;
 		sf::Text m_text;

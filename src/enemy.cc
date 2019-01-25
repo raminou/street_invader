@@ -3,7 +3,7 @@
 Enemy::Enemy(int x, int y, int size, int hp): Character(x, y, size, hp)
 {
 	if (!m_texture.loadFromFile("resources/texture/gilet_jaune.png")) {
-    	std::cout << "Error loading macron.png" << std::endl;
+    	std::cout << "Error loading gilet_jaune.png" << std::endl;
     }
     m_texture.setSmooth(true);
     m_sprite.setTexture(m_texture);
@@ -16,20 +16,16 @@ Enemy::~Enemy(){}
 void Enemy::move(Direction_t direction, int min_x, int max_x) {
 	switch(direction) {
 		case UP:
-			// std::cout << "up " << this << std::endl;
 			m_y -= m_enemy_velocity;
 			break;
 		case DOWN:
-			// std::cout << "down " << this << std::endl;
 			m_y += m_enemy_velocity;
 			break;
 		case LEFT:
-			// std::cout << "left " << this << std::endl;
 			if(m_x > min_x)
 				m_x -= m_enemy_velocity;
 			break;
 		case RIGHT:
-			// std::cout << "right " << this << std::endl;
 			if(m_x < max_x)
 				m_x += m_enemy_velocity;
 			break;
@@ -43,7 +39,6 @@ Shot* Enemy::shoot() const{
 }
 
 void Enemy::reduce_hp() {
-	std::cout << "reducehp: " << m_hp << std::endl;
     if(this->m_hp >= 0)
         this->m_hp--;
 }

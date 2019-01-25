@@ -21,12 +21,6 @@ unsigned int Player::get_score() const {
 std::string Player::get_name() const {
 	return m_name;
 }
-/*
-sf::Sprite Player::get_sprite() const
-{
-    return m_player_sprite;
-}
-*/
 
 void Player::reset_score() {
 	m_score = 0;
@@ -35,12 +29,10 @@ void Player::reset_score() {
 void Player::move(Direction_t direction, int min_x, int max_x) {
 	switch(direction) {
 		case LEFT:
-            std::cout << "MOVE LEFT: " << this->m_x << std::endl;
 			if(this->m_x > min_x)
 				this->m_x -= m_player_velocity;
             break;
 		case RIGHT:
-            std::cout << "MOVE RIGHT" << std::endl;
 			if(this->m_x < max_x)
 				this->m_x += m_player_velocity;
             break;

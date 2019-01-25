@@ -6,9 +6,9 @@ class Shot;
 class Character : public Entity {
 
 	protected:
-		int m_hp;		//Health-point of the character
+		int m_hp;				//Health-point of the character
 		sf::Texture m_texture; 	//Texture of the character
-        sf::Sprite m_sprite;     //Sprite of the character
+        sf::Sprite m_sprite;    //Sprite of the character
 
 
 	public:

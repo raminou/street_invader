@@ -18,6 +18,8 @@ class Window
         Game* m_game;
         sf::RectangleShape m_rect_player;
 		int m_banner_position;
+
+		//Graphic material
 		sf::Texture m_window_texture_logo;
         sf::Sprite m_window_sprite_logo;
         sf::Texture m_window_texture_banner;

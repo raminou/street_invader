@@ -23,7 +23,6 @@ bool Button::got_clicked(int pos_x, int pos_y) const {
 }
 
 void Button::draw(sf::RenderWindow& win) {
-	// std::cout << "draw" << std::endl;
 	win.draw(m_text);
 	win.draw(m_rect);
 }

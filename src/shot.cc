@@ -16,7 +16,6 @@ void Shot::move() {
 		default:
 			return;
 	}
-	// std::cout << "move: " << m_y << std::endl;
 }
 
 Character* Shot::get_author() const {
