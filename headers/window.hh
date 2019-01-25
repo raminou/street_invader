@@ -26,9 +26,8 @@ class Window
         sf::Sprite m_window_sprite_background;
 		
 		// Buttons
-		std::map<std::string, Button> m_buttons;
-		Button m_button_start;
-		Button m_button_quit;
+		std::map<std::string, Button> m_buttons_menu;
+		std::map<std::string, Button> m_buttons_endgame;
 		
 		// Font
 		std::tuple<bool, sf::Font> m_font_score;

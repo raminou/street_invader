@@ -7,7 +7,10 @@ Game::Game(int size_x, int size_y, Player* p):
     m_size_window_y(size_y),
     m_delay(Game::delay_down),
     m_player(p),
-    m_game_state(Unfinished)
+    m_game_state(Unfinished),
+	m_nb_shot(0),
+	m_nb_hit(0),
+	m_nb_enemies_begin(0)
 {
     generate();
 }
@@ -39,11 +42,30 @@ int Game::get_size_y() const {
     return m_size_window_y;
 }
 
+GameState Game::get_game_state() const {
+	return m_game_state;
+}
+
+unsigned int Game::get_nb_shot() const {
+	return m_nb_shot;
+}
+
+unsigned int Game::get_nb_hit() const {
+	return m_nb_hit;
+}
+
+unsigned int Game::get_nb_enemies_begin() const {
+	return m_nb_enemies_begin;
+}
+
 // Actions
 void Game::player_shot()
 {
     if(m_game_state == Unfinished)
-	    m_list_shot.push_back(m_player->shoot());
+	{
+		m_nb_shot++;
+		m_list_shot.push_back(m_player->shoot());
+	}
 }
 
 void Game::player_move(Direction_t dir)
@@ -70,6 +92,7 @@ void Game::generate()
                                    distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));
         }
     }
+	m_nb_enemies_begin = nb_x * nb_y;
     /*
     for(int i = 0; i < 45; i++)
     {
@@ -178,6 +201,7 @@ void Game::progress_shot() {
                     tmp_author->add_score(Enemy::score_enemy);
 
                     // Clear shot
+					m_nb_hit++;
                     ite_shot = m_list_shot.erase(ite_shot);
 
                     if((*ite_enemy)->get_hp() < 0)

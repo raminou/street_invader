@@ -8,7 +8,8 @@ Window::Window(int size_window_x, int size_window_y):
     m_game(nullptr),
     m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),
 	m_banner_position(size_window_x),
-	m_buttons(std::map<std::string, Button>()),
+	m_buttons_menu(std::map<std::string, Button>()),
+	m_buttons_endgame(std::map<std::string, Button>()),
 	m_font_score(std::make_tuple(false, sf::Font())),
 	m_font_banner(std::make_tuple(false, sf::Font()))
 {
@@ -46,21 +47,37 @@ Window::Window(int size_window_x, int size_window_y):
 	    m_window_sprite_background.setScale(1.25f, 1.25f);
     }
 
-	// Buttons
-	m_buttons["start"] = Button(250, 150, 100, 50, sf::Text());
-	m_buttons["quit"] = Button(250, 250, 100, 50, sf::Text());
+	// Buttons Menu
+	m_buttons_menu["start"] = Button(250, 150, 100, 50, sf::Text());
+	m_buttons_menu["quit"] = Button(250, 250, 100, 50, sf::Text());
 	
-	m_buttons["start"].get_text().setString("Start");
-	m_buttons["start"].get_text().setFillColor(sf::Color::Red);
+	m_buttons_menu["start"].get_text().setString("Start");
+	m_buttons_menu["start"].get_text().setFillColor(sf::Color::Red);
 	if(std::get<0>(m_font_banner))
-			m_buttons["start"].get_text().setFont(std::get<1>(m_font_banner));
-	m_buttons["start"].get_text().setCharacterSize(50);
+		m_buttons_menu["start"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_menu["start"].get_text().setCharacterSize(50);
 		
-	m_buttons["quit"].get_text().setString("Quit");
-	m_buttons["quit"].get_text().setFillColor(sf::Color::Red);
+	m_buttons_menu["quit"].get_text().setString("Quit");
+	m_buttons_menu["quit"].get_text().setFillColor(sf::Color::Red);
 	if(std::get<0>(m_font_banner))
-		m_buttons["quit"].get_text().setFont(std::get<1>(m_font_banner));
-	m_buttons["quit"].get_text().setCharacterSize(50);
+		m_buttons_menu["quit"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_menu["quit"].get_text().setCharacterSize(50);
+	
+	// Buttons End Game
+	m_buttons_endgame["restart"] = Button(50, 550, 200, 50, sf::Text());
+	m_buttons_endgame["menu"] = Button(350, 550, 200, 50, sf::Text());
+		
+	m_buttons_endgame["restart"].get_text().setString("Restart");
+	m_buttons_endgame["restart"].get_text().setFillColor(sf::Color::Red);
+	if(std::get<0>(m_font_banner))
+		m_buttons_endgame["restart"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_endgame["restart"].get_text().setCharacterSize(50);
+		
+	m_buttons_endgame["menu"].get_text().setString("Menu");
+	m_buttons_endgame["menu"].get_text().setFillColor(sf::Color::Red);
+	if(std::get<0>(m_font_banner))
+		m_buttons_endgame["menu"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_endgame["menu"].get_text().setCharacterSize(50);
 }
 
 void Window::refresh_screen()
@@ -68,8 +85,9 @@ void Window::refresh_screen()
 	sf::RectangleShape rect_tmp;
 	sf::Sprite sprite;
 	sf::Text title;
-	sf::Text button_start;
-	sf::Text button_quit;
+	sf::Text subtitle;
+	sf::Text stats1;
+	sf::Text stats2;
 	
 	switch(m_state) {
 		case SGame:
@@ -116,23 +134,70 @@ void Window::refresh_screen()
 			title.setCharacterSize(50);
 			title.setPosition(250, 50);
 			m_window.draw(title);
-			
-			/*
-			if(std::get<0>(m_font_banner))
-				button_start.setFont(std::get<1>(m_font_banner));
-			button_start.setString("Street invader");
-			button_start.setFillColor(sf::Color::Yellow);
-			button_start.setCharacterSize(30);
-			button_start.setPosition(250, 150);
-			m_window.draw(button_start);*/
-			for(std::map<std::string, Button>::iterator ite = m_buttons.begin(); ite != m_buttons.end(); ite++)
+
+			for(std::map<std::string, Button>::iterator ite = m_buttons_menu.begin(); ite != m_buttons_menu.end(); ite++)
 				ite->second.draw(m_window);
-			
-			/*m_button_start.draw(m_window);
-			m_button_quit.draw(m_window);*/
 			
 			break;
 		case SEndGame:
+			// Title
+			if(std::get<0>(m_font_banner))
+				title.setFont(std::get<1>(m_font_banner));
+			if(m_game->get_game_state() == PlayerWon)
+			{
+				title.setString("The democracy has been kept safe !");
+				title.setFillColor(sf::Color::Blue);
+				title.setPosition(50, 50);
+			}
+			else
+			{
+				title.setString("France will leave EU !");
+				title.setFillColor(sf::Color::Yellow);
+				title.setPosition(200, 50);
+			}
+			title.setCharacterSize(50);
+			m_window.draw(title);
+			
+			// Subtitle
+			if(std::get<0>(m_font_banner))
+				subtitle.setFont(std::get<1>(m_font_banner));
+			
+			if(m_game->get_game_state() == PlayerWon)
+			{
+				subtitle.setString("Good Job");
+				subtitle.setFillColor(sf::Color::Red);
+				subtitle.setPosition(285, 150);
+			}
+			else
+			{
+				subtitle.setString("Prepare yourself for the revolution");
+				subtitle.setFillColor(sf::Color::Red);
+				subtitle.setPosition(50, 150);
+			}
+			subtitle.setCharacterSize(35);
+			m_window.draw(subtitle);
+			
+			// Stats1
+			if(std::get<0>(m_font_banner))
+				stats1.setFont(std::get<1>(m_font_banner));
+			stats1.setString(std::to_wstring(m_game->get_nb_enemies_begin() * 100) + L" gilets jaunes repoussés");
+			stats1.setFillColor(sf::Color::Red);
+			stats1.setPosition(200, 250);
+			stats1.setCharacterSize(35);
+			m_window.draw(stats1);
+			
+			// Stats2
+			if(std::get<0>(m_font_banner))
+				stats2.setFont(std::get<1>(m_font_banner));
+			stats2.setString(std::to_wstring(m_game->get_nb_shot() * 100) + L" € de dépense");
+			stats2.setFillColor(sf::Color::Red);
+			stats2.setPosition(250, 350);
+			stats2.setCharacterSize(35);
+			m_window.draw(stats2);
+			
+			// Buttons
+			for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
+				ite->second.draw(m_window);
 			break;
 	}
 }
@@ -177,7 +242,7 @@ void Window::main_loop()
 			{
 				sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
 				
-				for(std::map<std::string, Button>::iterator ite = m_buttons.begin(); ite != m_buttons.end(); ite++)
+				for(std::map<std::string, Button>::iterator ite = m_buttons_menu.begin(); ite != m_buttons_menu.end(); ite++)
 				{
 					if(ite->second.got_clicked(localPosition.x, localPosition.y))
 					{
@@ -226,6 +291,8 @@ void Window::main_loop()
 		if(m_state == SGame)
 		{
         	m_game->progress();
+			if(m_game->get_game_state() != Unfinished)
+				m_state = SEndGame;
 		}
 
         // Draw

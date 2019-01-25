@@ -18,6 +18,9 @@ class Game
 		std::list<Shot*> m_list_shot;
 		std::list<Enemy*> m_list_enemy;
 		GameState m_game_state;
+		unsigned int m_nb_shot;
+		unsigned int m_nb_hit;
+		unsigned int m_nb_enemies_begin;
 	
 	public:
 		static constexpr std::size_t delay_down = 50;
@@ -33,6 +36,9 @@ class Game
 		int get_size_x() const;
 		int get_size_y() const;
 		GameState get_game_state() const;
+		unsigned int get_nb_shot() const;
+		unsigned int get_nb_hit() const;
+		unsigned int get_nb_enemies_begin() const;
         
 		void player_move(Direction_t dir);
 		void player_shot();
