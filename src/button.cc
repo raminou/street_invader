@@ -6,8 +6,7 @@ Button::Button(int x, int y, std::size_t size_x, std::size_t size_y, sf::Text t)
 	m_y(y),
 	m_size_x(size_x),
 	m_size_y(size_y),
-	m_text(t),
-	m_rect(sf::RectangleShape())
+	m_text(t)
 {
 	m_text.setPosition(x + 5, y + 5);
 }
@@ -24,5 +23,4 @@ bool Button::got_clicked(int pos_x, int pos_y) const {
 
 void Button::draw(sf::RenderWindow& win) {
 	win.draw(m_text);
-	win.draw(m_rect);
 }

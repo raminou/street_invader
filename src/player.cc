@@ -1,7 +1,10 @@
 #include "player.hh"
 
-Player::Player(int x, int y, int size, int hp, std::string name) : Character(x, y, size, hp), m_name(name), m_score(0) {
-
+Player::Player(int x, int y, int size, int hp, std::string name):
+	Character(x, y, size, hp),
+	m_name(name),
+	m_score(0)
+{
 	if (!m_texture.loadFromFile("resources/texture/macron.png")) {
     	std::cout << "Error loading macron.png" << std::endl;
     }

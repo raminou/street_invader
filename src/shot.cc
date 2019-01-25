@@ -1,7 +1,11 @@
 #include "shot.hh"
 
 
-Shot::Shot(int x, int y, Character* author, Direction_t direction) : Entity(x, y, Shot::m_shot_size), m_author(author), m_direction(direction) {}
+Shot::Shot(int x, int y, Character* author, Direction_t direction):
+	Entity(x, y, Shot::m_shot_size),
+	m_author(author),
+	m_direction(direction)
+{}
 
 Shot::~Shot() {}
 

@@ -1,106 +1,100 @@
 #include "window.hh"
 
 Window::Window(int size_window_x, int size_window_y):
-
-    m_window(sf::VideoMode(size_window_x, size_window_y, sf::Style::Titlebar | sf::Style::Close), "Street Invaders"),
+	m_window(sf::VideoMode(size_window_x, size_window_y, sf::Style::Titlebar | sf::Style::Close), "Street Invaders"),
 	m_state(SMenu),
-    m_player(0, 0, Player::m_player_size, 0, "E.Macron"),
-    m_game(nullptr),
-    m_rect_player(sf::Vector2f(Player::m_player_size, Player::m_player_size)),
-	m_banner_position(size_window_x),
+	m_player(0, 0, Player::m_player_size, 0, "E.Macron"),
+	m_game(nullptr),
 	m_buttons_menu(std::map<std::string, Button>()),
 	m_buttons_endgame(std::map<std::string, Button>()),
-	m_font_score(std::make_tuple(false, sf::Font())),
-	m_font_banner(std::make_tuple(false, sf::Font()))
+	m_font_score(sf::Font()),
+	m_font_banner(sf::Font())
 {
 	m_window.setFramerateLimit(60);
-    m_rect_player.setFillColor(sf::Color(255, 0, 0));
 	
 	// Load font if it is possible
-	if(!std::get<1>(m_font_score).loadFromFile("resources/font/univers-condensed-bold.ttf")) {
-		std::cout << "Error loading firstgradelili font" << std::endl;
-	}
-	else
-		std::get<0>(m_font_score) = true;
+	if(!m_font_score.loadFromFile("resources/font/univers-condensed-bold.ttf"))
+		std::cout << "Error loading font univers condensed bold font" << std::endl;
 		
 	// Load font if it is possible
-	if(!std::get<1>(m_font_banner).loadFromFile("resources/font/univers-condensed-bold.ttf")) {
-		std::cout << "Error loading kids_magazine font" << std::endl;
-	}
-	else
-		std::get<0>(m_font_banner) = true;
-    
+	if(!m_font_banner.loadFromFile("resources/font/univers-condensed-bold.ttf"))
+		std::cout << "Error loading font univers condensed bold font" << std::endl;
+	
+	// Load banner
 	if (!m_window_texture_banner.loadFromFile("resources/texture/banner.png")) {
-    	std::cout << "Error loading banner.png" << std::endl;
-    }
-    else {
-    	m_window_sprite_banner.setTexture(m_window_texture_banner);
-    	m_window_sprite_banner.setScale(0.5f, 0.25f);
-    }
-    
+		std::cout << "Error loading banner.png" << std::endl;
+	}
+	else {
+		m_window_sprite_banner.setTexture(m_window_texture_banner);
+		m_window_sprite_banner.setScale(0.5f, 0.25f);
+	}
+	
+	// Load background
+	if (!m_window_texture_background_game.loadFromFile("resources/texture/background_game.png")) {
+		std::cout << "Error loading background_game.png" << std::endl;
+	}
+	else {
+		m_window_sprite_background_game.setTexture(m_window_texture_background_game);
+		m_window_sprite_background_game.setScale(0.8f, 0.8f);
+	}
 
-    if (!m_window_texture_background_game.loadFromFile("resources/texture/background_game.png")) {
-    	std::cout << "Error loading background_game.png" << std::endl;
-    }
-    else {
-	    m_window_sprite_background_game.setTexture(m_window_texture_background_game);
-	    m_window_sprite_background_game.setScale(0.8f, 0.8f);
-    }
+	// Load background menu
+	if (!m_window_texture_background_menu.loadFromFile("resources/texture/background_menu.jpg")) {
+		std::cout << "Error loading background_menu.jpg" << std::endl;
+	}
+	else {
+		m_window_sprite_background_menu.setTexture(m_window_texture_background_menu);
+		m_window_sprite_background_menu.setScale(0.75f, 0.75f);
+	}
 
-    if (!m_window_texture_background_menu.loadFromFile("resources/texture/background_menu.jpg")) {
-    	std::cout << "Error loading background_menu.jpg" << std::endl;
-    }
-    else {
-	    m_window_sprite_background_menu.setTexture(m_window_texture_background_menu);
-	    m_window_sprite_background_menu.setScale(0.75f, 0.75f);
-    }
+	// Load background lose
+	if (!m_window_texture_background_lose.loadFromFile("resources/texture/background_lose.jpeg")) {
+		std::cout << "Error loading background_lose.jpeg" << std::endl;
+	}
+	else {
+		m_window_sprite_background_lose.setTexture(m_window_texture_background_lose);
+		m_window_sprite_background_lose.setScale(0.80f, 0.9f);
+	}
 
-    if (!m_window_texture_background_lose.loadFromFile("resources/texture/background_lose.jpeg")) {
-    	std::cout << "Error loading background_lose.jpeg" << std::endl;
-    }
-    else {
-	    m_window_sprite_background_lose.setTexture(m_window_texture_background_lose);
-	    m_window_sprite_background_lose.setScale(0.80f, 0.9f);
-    }
-
-    if (!m_window_texture_background_win.loadFromFile("resources/texture/background_win.png")) {
-    	std::cout << "Error loading background_win.png" << std::endl;
-    }
-    else {
-	    m_window_sprite_background_win.setTexture(m_window_texture_background_win);
-	    m_window_sprite_background_win.setScale(0.43f, 0.48f);
-    }
+	// Load background win
+	if (!m_window_texture_background_win.loadFromFile("resources/texture/background_win.png")) {
+		std::cout << "Error loading background_win.png" << std::endl;
+	}
+	else {
+		m_window_sprite_background_win.setTexture(m_window_texture_background_win);
+		m_window_sprite_background_win.setScale(0.43f, 0.48f);
+	}
 
 	// Buttons Menu
 	m_buttons_menu["start"] = Button(250, 150, 100, 50, sf::Text());
 	m_buttons_menu["quit"] = Button(250, 250, 100, 50, sf::Text());
 	
+	// Start
 	m_buttons_menu["start"].get_text().setString("Start");
 	m_buttons_menu["start"].get_text().setFillColor(sf::Color::Red);
-	if(std::get<0>(m_font_banner))
-		m_buttons_menu["start"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_menu["start"].get_text().setFont(m_font_banner);
 	m_buttons_menu["start"].get_text().setCharacterSize(50);
-		
+	
+	// Quit
 	m_buttons_menu["quit"].get_text().setString("Quit");
 	m_buttons_menu["quit"].get_text().setFillColor(sf::Color::Red);
-	if(std::get<0>(m_font_banner))
-		m_buttons_menu["quit"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_menu["quit"].get_text().setFont(m_font_banner);
 	m_buttons_menu["quit"].get_text().setCharacterSize(50);
 	
 	// Buttons End Game
 	m_buttons_endgame["restart"] = Button(10, 445, 200, 50, sf::Text());
 	m_buttons_endgame["menu"] = Button(size_window_x - 90, 445, 200, 50, sf::Text());
-		
+	
+	// Restart
 	m_buttons_endgame["restart"].get_text().setString("Restart");
 	m_buttons_endgame["restart"].get_text().setFillColor(sf::Color(255, 140, 0));
-	if(std::get<0>(m_font_banner))
-		m_buttons_endgame["restart"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_endgame["restart"].get_text().setFont(m_font_banner);
 	m_buttons_endgame["restart"].get_text().setCharacterSize(30);
-		
+	
+	// Menu
 	m_buttons_endgame["menu"].get_text().setString("Menu");
 	m_buttons_endgame["menu"].get_text().setFillColor(sf::Color(255, 140, 0));
-	if(std::get<0>(m_font_banner))
-		m_buttons_endgame["menu"].get_text().setFont(std::get<1>(m_font_banner));
+	m_buttons_endgame["menu"].get_text().setFont(m_font_banner);
 	m_buttons_endgame["menu"].get_text().setCharacterSize(30);
 }
 
@@ -112,13 +106,13 @@ void Window::refresh_screen()
 	
 	switch(m_state) {
 		case SGame:
-
-			//Background
+			/* Window state in Game */
+			// Background
 			sprite = m_window_sprite_background_game;
-    		m_window_sprite_background_game.setPosition(0, 0);
-    		m_window.draw(m_window_sprite_background_game);
+			m_window_sprite_background_game.setPosition(0, 0);
+			m_window.draw(m_window_sprite_background_game);
 
-			//Banner
+			// Banner
 			sprite = m_window_sprite_banner;
     		m_window_sprite_banner.setPosition(0, m_game->get_size_y() + 50);
     		m_window.draw(m_window_sprite_banner);
@@ -148,28 +142,29 @@ void Window::refresh_screen()
 			display_info();
 			break;
 		case SMenu:
-
+			/* Window state in Menu */
+			// Background
 			sprite = m_window_sprite_background_menu;
-    		m_window_sprite_background_menu.setPosition(0, 0);
-    		m_window.draw(m_window_sprite_background_menu);
-
-			if(std::get<0>(m_font_banner))
-				title.setFont(std::get<1>(m_font_banner));
-
+			m_window_sprite_background_menu.setPosition(0, 0);
+			m_window.draw(m_window_sprite_background_menu);
+			
+			// Title
+			title.setFont(m_font_banner);
 			title.setString("Street Invaders");
 			title.setFillColor(sf::Color::Yellow);
 			title.setCharacterSize(50);
 			title.setPosition(250, 50);
 			m_window.draw(title);
 
+			// Buttons
 			for(std::map<std::string, Button>::iterator ite = m_buttons_menu.begin(); ite != m_buttons_menu.end(); ite++)
 				ite->second.draw(m_window);
 			
 			break;
 		case SEndGame:
+			/* Window state in End of game */
 			// Title
-			if(std::get<0>(m_font_banner))
-				title.setFont(std::get<1>(m_font_banner));
+			title.setFont(m_font_banner);
 			if(m_game->get_game_state() == PlayerWon)
 			{
 				sprite = m_window_sprite_background_win;
@@ -183,13 +178,12 @@ void Window::refresh_screen()
     			m_window.draw(m_window_sprite_background_lose);
     		}
 
-    			title.setString(L"Après " + std::to_wstring(m_game->get_time()) + L"h dans les rues et " + 
-    										std::to_wstring(m_game->get_nb_shot() * 100) + L" euros de dépense, " + 
-    										std::to_wstring(m_player.get_score()) + L" Gilets Jaunes repoussés.");
-				title.setFillColor(sf::Color::Black);
-				title.setPosition(110, m_game->get_size_y() + 58);
-
-			
+			// Text
+			title.setString(L"Après " + std::to_wstring(m_game->get_time()) + L"h dans les rues et " + 
+										std::to_wstring(m_game->get_nb_shot() * 100) + L" euros de dépense, " + 
+										std::to_wstring(m_player.get_score()) + L" Gilets Jaunes repoussés.");
+			title.setFillColor(sf::Color::Black);
+			title.setPosition(110, m_game->get_size_y() + 58);
 			title.setCharacterSize(18);
 			m_window.draw(title);
 		
@@ -204,9 +198,7 @@ void Window::display_info()
 {
 	// Score
 	sf::Text text_score;
-	if(std::get<0>(m_font_score))
-		text_score.setFont(std::get<1>(m_font_score));
-	
+	text_score.setFont(m_font_score);
 	text_score.setString("Opinion favorable : " + (std::to_string((m_player.get_score()) / 30)) + "%");
 	text_score.setCharacterSize(24);
 	text_score.setFillColor(sf::Color::White);
@@ -216,9 +208,7 @@ void Window::display_info()
 	
 	// Time
 	sf::Text text_time;
-	if(std::get<0>(m_font_score))
-		text_score.setFont(std::get<1>(m_font_score));
-	
+	text_score.setFont(m_font_score);
 	text_score.setString("Temps : " + std::to_string(m_game->get_time()) + "h");
 	text_score.setCharacterSize(24);
 	text_score.setFillColor(sf::Color::White);
@@ -228,9 +218,7 @@ void Window::display_info()
 	
 	// Banner
 	sf::Text text_banner;
-	if(std::get<0>(m_font_banner))
-		text_banner.setFont(std::get<1>(m_font_banner));
-	
+	text_banner.setFont(m_font_banner);
 	text_banner.setString(std::to_string(m_game->get_enemies().size() * 100) + " GILETS JAUNES ENCORE DANS LES RUES.\nEMMANUEL MACRON SUR LE TERRAIN POUR LES ARRETER.");
 	text_banner.setCharacterSize(20);
 	text_banner.setFillColor(sf::Color::White);
@@ -245,16 +233,19 @@ void Window::main_loop()
         sf::Event event;
         while (m_window.pollEvent(event))
         {
+			// Clicked
 			if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
 				
 				if(m_state == SMenu)
 				{
+					// If we are in a menu, we look for which button has been clicked
 					for(std::map<std::string, Button>::iterator ite = m_buttons_menu.begin(); ite != m_buttons_menu.end(); ite++)
 					{
 						if(ite->second.got_clicked(localPosition.x, localPosition.y))
 						{
+							// Action on click
 							if(ite->first == "start")
 							{
 								m_game = new Game(m_window.getSize().x, m_window.getSize().y - 100, &m_player);
@@ -267,10 +258,12 @@ void Window::main_loop()
 				}
 				else if(m_state == SEndGame)
 				{
+					// If we are in the end of the game, we look for which button has been clicked
 					for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
 					{
 						if(ite->second.got_clicked(localPosition.x, localPosition.y))
 						{
+							// Action on click
 							if(ite->first == "restart")
 							{
 								delete m_game;
@@ -288,44 +281,49 @@ void Window::main_loop()
 				}
 			}
 			
-            switch (event.type)
-            {
-                case sf::Event::Closed:
-                    m_window.close();
-                    break;
-                case sf::Event::KeyPressed:
-                    switch(event.key.code)
-                    {
-                    	case sf::Keyboard::Left:
-                            m_game->player_move(LEFT);
-                            break;
-                        case sf::Keyboard::Right:
-                            m_game->player_move(RIGHT);
-                            break;
-                        case sf::Keyboard::Space:
-                            m_game->player_shot();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+			// Key pressed only in game
+			if(m_state == SGame)
+			{
+				switch (event.type)
+				{
+					case sf::Event::Closed:
+						m_window.close();
+						break;
+					case sf::Event::KeyPressed:
+						switch(event.key.code)
+						{
+							case sf::Keyboard::Left:
+								m_game->player_move(LEFT);
+								break;
+							case sf::Keyboard::Right:
+								m_game->player_move(RIGHT);
+								break;
+							case sf::Keyboard::Space:
+								m_game->player_shot();
+								break;
+							default:
+								break;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
 
-        m_window.clear();
+		m_window.clear();
 		
+		// If we are in game 
 		if(m_state == SGame)
 		{
-        	m_game->progress();
+			m_game->progress();
 			if(m_game->get_game_state() != Unfinished)
 				m_state = SEndGame;
 		}
 
-        // Draw
-        refresh_screen();
-        
-        m_window.display();
+		// Draw
+		refresh_screen();
+
+		m_window.display();
     }
 }
