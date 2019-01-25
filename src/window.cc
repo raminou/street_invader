@@ -2,7 +2,7 @@
 
 Window::Window(int size_window_x, int size_window_y):
 
-    m_window(sf::VideoMode(size_window_x, size_window_y), "Street Invaders"),
+    m_window(sf::VideoMode(size_window_x, size_window_y, sf::Style::Titlebar | sf::Style::Close), "Street Invaders"),
 	m_state(SMenu),
     m_player(0, 0, Player::m_player_size, 0, "E.Macron"),
     m_game(nullptr),
@@ -64,8 +64,8 @@ Window::Window(int size_window_x, int size_window_y):
 	m_buttons_menu["quit"].get_text().setCharacterSize(50);
 	
 	// Buttons End Game
-	m_buttons_endgame["restart"] = Button(50, 550, 200, 50, sf::Text());
-	m_buttons_endgame["menu"] = Button(350, 550, 200, 50, sf::Text());
+	m_buttons_endgame["restart"] = Button(50, 425, 200, 50, sf::Text());
+	m_buttons_endgame["menu"] = Button(size_window_x - 50 - 200, 425, 200, 50, sf::Text());
 		
 	m_buttons_endgame["restart"].get_text().setString("Restart");
 	m_buttons_endgame["restart"].get_text().setFillColor(sf::Color::Red);
@@ -197,7 +197,10 @@ void Window::refresh_screen()
 			
 			// Buttons
 			for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
+			{
+				std::cout << ite->first << std::endl;
 				ite->second.draw(m_window);
+			}
 			break;
 	}
 }
@@ -238,21 +241,44 @@ void Window::main_loop()
         sf::Event event;
         while (m_window.pollEvent(event))
         {
-			if(m_state == SMenu && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
 				
-				for(std::map<std::string, Button>::iterator ite = m_buttons_menu.begin(); ite != m_buttons_menu.end(); ite++)
+				if(m_state == SMenu)
 				{
-					if(ite->second.got_clicked(localPosition.x, localPosition.y))
+					for(std::map<std::string, Button>::iterator ite = m_buttons_menu.begin(); ite != m_buttons_menu.end(); ite++)
 					{
-						if(ite->first == "start")
+						if(ite->second.got_clicked(localPosition.x, localPosition.y))
 						{
-							m_game = new Game(m_window.getSize().x, m_window.getSize().y - 100, &m_player);
-							m_state = SGame;
+							if(ite->first == "start")
+							{
+								m_game = new Game(m_window.getSize().x, m_window.getSize().y - 100, &m_player);
+								m_state = SGame;
+							}
+							else if(ite->first == "quit")
+								m_window.close();
 						}
-						else if(ite->first == "quit")
-							m_window.close();
+					}
+				}
+				else if(m_state == SEndGame)
+				{
+					for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
+					{
+						if(ite->second.got_clicked(localPosition.x, localPosition.y))
+						{
+							if(ite->first == "restart")
+							{
+								delete m_game;
+								m_game = new Game(m_window.getSize().x, m_window.getSize().y - 100, &m_player);
+								m_state = SGame;
+							}
+							else if(ite->first == "menu")
+							{
+								delete m_game;
+								m_state = SMenu;
+							}
+						}
 					}
 				}
 			}
