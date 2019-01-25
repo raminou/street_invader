@@ -39,12 +39,20 @@ Window::Window(int size_window_x, int size_window_y):
     }
     
 
-    if (!m_window_texture_background.loadFromFile("resources/texture/background.png")) {
-    	std::cout << "Error loading background.jpg" << std::endl;
+    if (!m_window_texture_background_game.loadFromFile("resources/texture/background_game.png")) {
+    	std::cout << "Error loading background_game.png" << std::endl;
     }
     else {
-	    m_window_sprite_background.setTexture(m_window_texture_background);
-	    m_window_sprite_background.setScale(0.8f, 0.8f);
+	    m_window_sprite_background_game.setTexture(m_window_texture_background_game);
+	    m_window_sprite_background_game.setScale(0.8f, 0.8f);
+    }
+
+    if (!m_window_texture_background_menu.loadFromFile("resources/texture/background_menu.jpg")) {
+    	std::cout << "Error loading background_menu.jpg" << std::endl;
+    }
+    else {
+	    m_window_sprite_background_menu.setTexture(m_window_texture_background_menu);
+	    m_window_sprite_background_menu.setScale(0.8f, 0.8f);
     }
 
 	// Buttons Menu
@@ -94,9 +102,9 @@ void Window::refresh_screen()
 		case SGame:
 
 			//Background
-			sprite = m_window_sprite_background;
-    		m_window_sprite_background.setPosition(0, 0);
-    		m_window.draw(m_window_sprite_background);
+			sprite = m_window_sprite_background_game;
+    		m_window_sprite_background_game.setPosition(0, 0);
+    		m_window.draw(m_window_sprite_background_game);
 
 			//Banner
 			sprite = m_window_sprite_banner;
@@ -128,8 +136,14 @@ void Window::refresh_screen()
 			display_info();
 			break;
 		case SMenu:
+
+			sprite = m_window_sprite_background_menu;
+    		m_window_sprite_background_menu.setPosition(0, 0);
+    		m_window.draw(m_window_sprite_background_menu);
+
 			if(std::get<0>(m_font_banner))
 				title.setFont(std::get<1>(m_font_banner));
+
 			title.setString("Street Invaders");
 			title.setFillColor(sf::Color::Yellow);
 			title.setCharacterSize(50);

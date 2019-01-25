@@ -138,8 +138,8 @@ void Game::progress()
 	        		//Go down if touches the edge
 	        		else  {
 	        			Game::left_right = 1;
-	        			for(auto& ite: m_list_enemy) {
-	        				ite->move(DOWN, 0, m_size_window_x);
+	        			for(auto& ite1: m_list_enemy) {
+	        				ite1->move(DOWN, 0, m_size_window_x);
 	        			}
 	        			break;
 	        		}
@@ -152,8 +152,8 @@ void Game::progress()
 	        		//Go down if touches the edge
 	        		else {
 	        			Game::left_right = 0;
-	        			for(auto& ite: m_list_enemy) {
-	        				ite->move(DOWN, 0, m_size_window_x);
+	        			for(auto& ite2: m_list_enemy) {
+	        				ite2->move(DOWN, 0, m_size_window_x);
 	        			}
 	        			break;
 	        		}
