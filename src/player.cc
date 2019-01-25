@@ -27,6 +27,11 @@ sf::Sprite Player::get_sprite() const
     return m_player_sprite;
 }
 */
+
+void Player::reset_score() {
+	m_score = 0;
+}
+
 void Player::move(Direction_t direction, int min_x, int max_x) {
 	switch(direction) {
 		case LEFT:

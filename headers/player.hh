@@ -25,6 +25,7 @@ class Player : public Character {
 		std::string get_name() const;
 		//sf::Sprite get_sprite() const;
 
+		void reset_score();
 		void move(Direction_t direction, int min_x, int max_x);
         void change_position(int x, int y);
 		Shot* shoot() const;

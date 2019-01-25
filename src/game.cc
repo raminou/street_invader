@@ -117,6 +117,7 @@ void Game::generate()
     // m_list_enemy.push_back(new Enemy(400, 50, 0));
     
     // Setting the player in the middle of the screen
+	m_player->reset_score();
     m_player->change_position(m_size_window_x/2 - Player::m_player_size/2, m_size_window_y - 25);
 }
 
