@@ -35,7 +35,7 @@ void Enemy::move(Direction_t direction, int min_x, int max_x) {
 }
 
 Shot* Enemy::shoot() const{
-	return new Shot(m_x + m_size/2, m_y + 1, (Enemy*)this, DOWN);
+	return new Shot(m_x + m_size/2, m_y + m_size/2, (Enemy*)this, DOWN);
 }
 
 void Enemy::reduce_hp() {

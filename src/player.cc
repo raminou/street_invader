@@ -25,6 +25,11 @@ std::string Player::get_name() const {
 	return m_name;
 }
 
+std::ostream& operator<<(std::ostream& os, const Player& p) {
+	os << "Player<" << p.get_x() << "," << p.get_y() << ">;" << std::endl;
+	return os;
+}
+
 void Player::reset_score() {
 	m_score = 0;
 }
@@ -45,7 +50,7 @@ void Player::move(Direction_t direction, int min_x, int max_x) {
 }
 
 Shot* Player::shoot() const {
-	return new Shot(m_x + m_size/2, m_y - 1, (Player*)this, UP);
+	return new Shot(m_x + m_size/2, m_y - m_size/2, (Player*)this, UP);
 }
 
 void Player::change_position(int x, int y) {

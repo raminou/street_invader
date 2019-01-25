@@ -25,3 +25,8 @@ void Shot::move() {
 Character* Shot::get_author() const {
     return m_author;
 }
+
+std::ostream& operator<<(std::ostream& os, const Character& c) {
+	os << "Character<" << c.get_x() << "," << c.get_y() << ">;" << std::endl;
+	return os;
+}

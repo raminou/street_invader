@@ -12,16 +12,19 @@ class Player : public Character {
 		unsigned int m_score;			// Score of the player
 	
 	public:
-		static constexpr std::size_t m_player_size = 50;		// Size of a Player object
+		static constexpr std::size_t m_player_size = 40;		// Size of a Player object
 		static constexpr std::size_t m_player_velocity = 5;		// Velocity of a Player object
 
-        // Constructor and destructor
+		// Constructor and destructor
 		Player(int x, int y, int size, int hp, std::string name);
 		virtual ~Player();
 	
 		// Getters
 		unsigned int get_score() const;
 		std::string get_name() const;
+	
+		// Debug method
+		friend std::ostream& operator<<(std::ostream& , const Character&);
 
 		// Reset score at the beginning of a new game
 		void reset_score();

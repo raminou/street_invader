@@ -26,6 +26,9 @@ class Shot : public Entity {
 		// Getters
 		Character* get_author() const;
 
+		// Debug method
+		friend std::ostream& operator<<(std::ostream& , const Character&);
+	
 		// Make the shot moves
 		virtual void move();
 };
