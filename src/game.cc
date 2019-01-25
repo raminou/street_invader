@@ -97,8 +97,10 @@ void Game::generate()
     {
         for(int col = 0; col < nb_x; col++)
         {
-            m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
-                                   distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));
+            /*m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
+                                   distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));*/
+        	m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
+                                   310,  Enemy::m_enemy_size, 0));
         }
     }
 	m_nb_enemies_begin = nb_x * nb_y;

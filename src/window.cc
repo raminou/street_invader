@@ -52,7 +52,15 @@ Window::Window(int size_window_x, int size_window_y):
     }
     else {
 	    m_window_sprite_background_menu.setTexture(m_window_texture_background_menu);
-	    m_window_sprite_background_menu.setScale(0.8f, 0.8f);
+	    m_window_sprite_background_menu.setScale(0.75f, 0.75f);
+    }
+
+    if (!m_window_texture_background_lose.loadFromFile("resources/texture/background_lose.jpeg")) {
+    	std::cout << "Error loading background_lose.jpeg" << std::endl;
+    }
+    else {
+	    m_window_sprite_background_lose.setTexture(m_window_texture_background_lose);
+	    m_window_sprite_background_lose.setScale(0.80f, 0.9f);
     }
 
 	// Buttons Menu
@@ -79,13 +87,13 @@ Window::Window(int size_window_x, int size_window_y):
 	m_buttons_endgame["restart"].get_text().setFillColor(sf::Color::Red);
 	if(std::get<0>(m_font_banner))
 		m_buttons_endgame["restart"].get_text().setFont(std::get<1>(m_font_banner));
-	m_buttons_endgame["restart"].get_text().setCharacterSize(50);
+	m_buttons_endgame["restart"].get_text().setCharacterSize(30);
 		
 	m_buttons_endgame["menu"].get_text().setString("Menu");
 	m_buttons_endgame["menu"].get_text().setFillColor(sf::Color::Red);
 	if(std::get<0>(m_font_banner))
 		m_buttons_endgame["menu"].get_text().setFont(std::get<1>(m_font_banner));
-	m_buttons_endgame["menu"].get_text().setCharacterSize(50);
+	m_buttons_endgame["menu"].get_text().setCharacterSize(30);
 }
 
 void Window::refresh_screen()
@@ -166,11 +174,18 @@ void Window::refresh_screen()
 			}
 			else
 			{
-				title.setString("France will leave EU !");
-				title.setFillColor(sf::Color::Yellow);
-				title.setPosition(200, 50);
+				sprite = m_window_sprite_background_lose;
+    			m_window_sprite_background_lose.setPosition(0, 0);
+    			m_window.draw(m_window_sprite_background_lose);
+
+				title.setString("Apres " + std::to_string(m_game->get_time()) + "h dans les rues et " + 
+											std::to_string(m_game->get_nb_shot() * 100) + " euros de depense, " +
+											std::to_string(m_player.get_score()) + " Gilets Jaunes repousses.");
+				title.setFillColor(sf::Color::Black);
+				title.setPosition(110, m_game->get_size_y() + 50);
+
 			}
-			title.setCharacterSize(50);
+			title.setCharacterSize(22);
 			m_window.draw(title);
 			
 			// Subtitle
@@ -185,17 +200,19 @@ void Window::refresh_screen()
 			}
 			else
 			{
+			/*
 				subtitle.setString("Prepare yourself for the revolution");
 				subtitle.setFillColor(sf::Color::Red);
-				subtitle.setPosition(50, 125);
+				subtitle.setPosition(200, 125);
+			*/
 			}
 			subtitle.setCharacterSize(35);
 			m_window.draw(subtitle);
-			
+/*			
 			// Stats1
 			if(std::get<0>(m_font_banner))
 				stats1.setFont(std::get<1>(m_font_banner));
-			stats1.setString(std::to_wstring(m_game->get_nb_enemies_begin() * 100) + L" Gilets Jaunes repoussés");
+			stats1.setString(std::to_wstring(m_player.get_score()) + L" Gilets Jaunes repoussés");
 			stats1.setFillColor(sf::Color::Red);
 			stats1.setPosition(200, 200);
 			stats1.setCharacterSize(35);
@@ -218,7 +235,7 @@ void Window::refresh_screen()
 			stats3.setPosition(250, 350);
 			stats3.setCharacterSize(35);
 			m_window.draw(stats3);
-			
+*/			
 			// Buttons
 			for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
 				ite->second.draw(m_window);

@@ -26,6 +26,8 @@ class Window
         sf::Sprite m_window_sprite_background_game;
         sf::Texture m_window_texture_background_menu;
         sf::Sprite m_window_sprite_background_menu;
+        sf::Texture m_window_texture_background_lose;
+        sf::Sprite m_window_sprite_background_lose;
 		
 		// Buttons
 		std::map<std::string, Button> m_buttons_menu;
