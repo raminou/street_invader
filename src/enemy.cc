@@ -16,15 +16,23 @@ Enemy::~Enemy(){}
 void Enemy::move(Direction_t direction, int min_x, int max_x) {
 	switch(direction) {
 		case UP:
+			// std::cout << "up " << this << std::endl;
 			m_y -= m_enemy_velocity;
+			break;
 		case DOWN:
+			// std::cout << "down " << this << std::endl;
 			m_y += m_enemy_velocity;
+			break;
 		case LEFT:
-			if(m_x > min_x) 
+			// std::cout << "left " << this << std::endl;
+			if(m_x > min_x)
 				m_x -= m_enemy_velocity;
+			break;
 		case RIGHT:
+			// std::cout << "right " << this << std::endl;
 			if(m_x < max_x)
 				m_x += m_enemy_velocity;
+			break;
 		default:
 			return;
 	}
@@ -38,4 +46,9 @@ void Enemy::reduce_hp() {
 	std::cout << "reducehp: " << m_hp << std::endl;
     if(this->m_hp >= 0)
         this->m_hp--;
+}
+
+std::ostream& operator<<(std::ostream& os, const Enemy& en) {
+	os << "Enemy<" << en.get_x() << "," << en.get_y() << ">;" << std::endl;
+	return os;
 }
