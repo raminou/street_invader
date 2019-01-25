@@ -130,30 +130,32 @@ void Game::progress()
             //std::cout << "down" << std::endl;
             for(auto& ite: m_list_enemy)
             {
-            	std::cout << "left_right = " << Game::left_right << std::endl;
             	//Go to the left
 	        	if (Game::left_right == 0) {
 	        		if (ite->get_x() > 0) {
 	        			ite->move(LEFT, 0, m_size_window_x);
-	        			// std::cout << "coucou1" << std::endl;
 	        		}
 	        		//Go down if touches the edge
 	        		else  {
 	        			Game::left_right = 1;
-	        			ite->move(DOWN, 0, m_size_window_x);
-	        			// std::cout << "coucou2" << std::endl;
+	        			for(auto& ite: m_list_enemy) {
+	        				ite->move(DOWN, 0, m_size_window_x);
+	        			}
+	        			break;
 	        		}
 	        	}
 	        	//Go to the right
 	        	else {
 	        		if ((int)(ite->get_x() + ite->get_size()) < (int)m_size_window_x) {
-						std::cout << "here" << std::endl;
 	        			ite->move(RIGHT, 0, m_size_window_x);
 	        		}
 	        		//Go down if touches the edge
 	        		else {
 	        			Game::left_right = 0;
-	        			ite->move(DOWN, 0, m_size_window_x);
+	        			for(auto& ite: m_list_enemy) {
+	        				ite->move(DOWN, 0, m_size_window_x);
+	        			}
+	        			break;
 	        		}
 	        	}
 

@@ -44,7 +44,7 @@ Window::Window(int size_window_x, int size_window_y):
     }
     else {
 	    m_window_sprite_background.setTexture(m_window_texture_background);
-	    m_window_sprite_background.setScale(1.25f, 1.25f);
+	    m_window_sprite_background.setScale(0.8f, 0.8f);
     }
 
 	// Buttons Menu
@@ -181,7 +181,7 @@ void Window::refresh_screen()
 			// Stats1
 			if(std::get<0>(m_font_banner))
 				stats1.setFont(std::get<1>(m_font_banner));
-			stats1.setString(std::to_wstring(m_game->get_nb_enemies_begin() * 100) + L" gilets jaunes repoussés");
+			stats1.setString(std::to_wstring(m_game->get_nb_enemies_begin() * 100) + L" Gilets Jaunes repoussés");
 			stats1.setFillColor(sf::Color::Red);
 			stats1.setPosition(200, 200);
 			stats1.setCharacterSize(35);
@@ -219,7 +219,7 @@ void Window::display_info()
 	if(std::get<0>(m_font_score))
 		text_score.setFont(std::get<1>(m_font_score));
 	
-	text_score.setString("SCORE : " + std::to_string(m_player.get_score()));
+	text_score.setString("Opinion favorable : " + (std::to_string((m_player.get_score()) / 30)) + "%");
 	text_score.setCharacterSize(24);
 	text_score.setFillColor(sf::Color::White);
 	text_score.setPosition(10, m_game->get_size_y());
@@ -234,7 +234,7 @@ void Window::display_info()
 	text_score.setString("Time: " + std::to_string(m_game->get_time()) + "h");
 	text_score.setCharacterSize(24);
 	text_score.setFillColor(sf::Color::White);
-	text_score.setPosition(800 - 100, m_game->get_size_y());
+	text_score.setPosition(800 - 120, m_game->get_size_y());
 	text_score.setStyle(sf::Text::Bold);
 	m_window.draw(text_score);
 	
@@ -287,6 +287,7 @@ void Window::main_loop()
 							{
 								delete m_game;
 								m_game = new Game(m_window.getSize().x, m_window.getSize().y - 100, &m_player);
+								m_player.sub_score(m_player.get_score());
 								m_state = SGame;
 							}
 							else if(ite->first == "menu")
