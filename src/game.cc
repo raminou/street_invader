@@ -10,7 +10,9 @@ Game::Game(int size_x, int size_y, Player* p):
     m_game_state(Unfinished),
 	m_nb_shot(0),
 	m_nb_hit(0),
-	m_nb_enemies_begin(0)
+	m_nb_enemies_begin(0),
+	m_time_begin(std::time(nullptr)),
+	m_time_end(std::time(nullptr))
 {
     generate();
 }
@@ -56,6 +58,13 @@ unsigned int Game::get_nb_hit() const {
 
 unsigned int Game::get_nb_enemies_begin() const {
 	return m_nb_enemies_begin;
+}
+
+std::time_t Game::get_time() const {
+	if(m_game_state == Unfinished)
+		return std::time(nullptr) - m_time_begin;
+	else
+		return m_time_end - m_time_begin;
 }
 
 // Actions
@@ -155,6 +164,7 @@ void Game::progress()
                 {
                     // GJ ont gagné
                     std::cout << "GJ WON" << std::endl;
+					m_time_end = std::time(nullptr);
                     m_game_state = EnemiesWon;
                 }
             }
@@ -224,6 +234,9 @@ void Game::progress_shot() {
     }
     
     if(m_list_enemy.size() == 0)
+	{
+		m_time_end = std::time(nullptr);
         m_game_state = PlayerWon;
+	}
     // std::cout << "endprogressshot" << std::endl;
 }

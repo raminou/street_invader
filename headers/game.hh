@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <ctime>
 
 #include "player.hh"
 #include "shot.hh"
@@ -21,6 +22,8 @@ class Game
 		unsigned int m_nb_shot;
 		unsigned int m_nb_hit;
 		unsigned int m_nb_enemies_begin;
+		std::time_t m_time_begin;
+		std::time_t m_time_end;
 	
 	public:
 		static constexpr std::size_t delay_down = 50;
@@ -39,6 +42,7 @@ class Game
 		unsigned int get_nb_shot() const;
 		unsigned int get_nb_hit() const;
 		unsigned int get_nb_enemies_begin() const;
+		std::time_t get_time() const;
         
 		void player_move(Direction_t dir);
 		void player_shot();

@@ -88,6 +88,7 @@ void Window::refresh_screen()
 	sf::Text subtitle;
 	sf::Text stats1;
 	sf::Text stats2;
+	sf::Text stats3;
 	
 	switch(m_state) {
 		case SGame:
@@ -166,13 +167,13 @@ void Window::refresh_screen()
 			{
 				subtitle.setString("Good Job");
 				subtitle.setFillColor(sf::Color::Red);
-				subtitle.setPosition(285, 150);
+				subtitle.setPosition(285, 125);
 			}
 			else
 			{
 				subtitle.setString("Prepare yourself for the revolution");
 				subtitle.setFillColor(sf::Color::Red);
-				subtitle.setPosition(50, 150);
+				subtitle.setPosition(50, 125);
 			}
 			subtitle.setCharacterSize(35);
 			m_window.draw(subtitle);
@@ -182,7 +183,7 @@ void Window::refresh_screen()
 				stats1.setFont(std::get<1>(m_font_banner));
 			stats1.setString(std::to_wstring(m_game->get_nb_enemies_begin() * 100) + L" gilets jaunes repoussés");
 			stats1.setFillColor(sf::Color::Red);
-			stats1.setPosition(200, 250);
+			stats1.setPosition(200, 200);
 			stats1.setCharacterSize(35);
 			m_window.draw(stats1);
 			
@@ -191,43 +192,58 @@ void Window::refresh_screen()
 				stats2.setFont(std::get<1>(m_font_banner));
 			stats2.setString(std::to_wstring(m_game->get_nb_shot() * 100) + L" € de dépense");
 			stats2.setFillColor(sf::Color::Red);
-			stats2.setPosition(250, 350);
+			stats2.setPosition(250, 275);
 			stats2.setCharacterSize(35);
 			m_window.draw(stats2);
 			
+			// Stats3
+			if(std::get<0>(m_font_banner))
+				stats3.setFont(std::get<1>(m_font_banner));
+			stats3.setString(std::to_wstring(m_game->get_time()) + L"h dans la rue");
+			stats3.setFillColor(sf::Color::Red);
+			stats3.setPosition(250, 350);
+			stats3.setCharacterSize(35);
+			m_window.draw(stats3);
+			
 			// Buttons
 			for(std::map<std::string, Button>::iterator ite = m_buttons_endgame.begin(); ite != m_buttons_endgame.end(); ite++)
-			{
-				std::cout << ite->first << std::endl;
 				ite->second.draw(m_window);
-			}
 			break;
 	}
 }
 
 void Window::display_info()
 {
-	std::string msg = "SCORE : " + std::to_string(m_player.get_score());
+	// Score
 	sf::Text text_score;
-	
 	if(std::get<0>(m_font_score))
 		text_score.setFont(std::get<1>(m_font_score));
 	
-	text_score.setString(msg);
+	text_score.setString("SCORE : " + std::to_string(m_player.get_score()));
 	text_score.setCharacterSize(24);
 	text_score.setFillColor(sf::Color::White);
 	text_score.setPosition(10, m_game->get_size_y());
 	text_score.setStyle(sf::Text::Bold);
 	m_window.draw(text_score);
 	
+	// Time
+	sf::Text text_time;
+	if(std::get<0>(m_font_score))
+		text_score.setFont(std::get<1>(m_font_score));
+	
+	text_score.setString("Time: " + std::to_string(m_game->get_time()) + "h");
+	text_score.setCharacterSize(24);
+	text_score.setFillColor(sf::Color::White);
+	text_score.setPosition(800 - 100, m_game->get_size_y());
+	text_score.setStyle(sf::Text::Bold);
+	m_window.draw(text_score);
 	
 	// Banner
-	msg = std::to_string(m_game->get_enemies().size() * 100) + " GILETS JAUNES ENCORE DANS LES RUES.\nEMMANUEL MACRON SUR LE TERRAIN POUR LES ARRETER.";
 	sf::Text text_banner;
 	if(std::get<0>(m_font_banner))
 		text_banner.setFont(std::get<1>(m_font_banner));
 	
-	text_banner.setString(msg);
+	text_banner.setString(std::to_string(m_game->get_enemies().size() * 100) + " GILETS JAUNES ENCORE DANS LES RUES.\nEMMANUEL MACRON SUR LE TERRAIN POUR LES ARRETER.");
 	text_banner.setCharacterSize(20);
 	text_banner.setFillColor(sf::Color::White);
 	text_banner.setPosition(115, m_game->get_size_y() + 50);
