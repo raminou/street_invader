@@ -63,6 +63,14 @@ Window::Window(int size_window_x, int size_window_y):
 	    m_window_sprite_background_lose.setScale(0.80f, 0.9f);
     }
 
+    if (!m_window_texture_background_win.loadFromFile("resources/texture/background_win.png")) {
+    	std::cout << "Error loading background_win.png" << std::endl;
+    }
+    else {
+	    m_window_sprite_background_win.setTexture(m_window_texture_background_win);
+	    m_window_sprite_background_win.setScale(0.43f, 0.48f);
+    }
+
 	// Buttons Menu
 	m_buttons_menu["start"] = Button(250, 150, 100, 50, sf::Text());
 	m_buttons_menu["quit"] = Button(250, 250, 100, 50, sf::Text());
@@ -80,17 +88,17 @@ Window::Window(int size_window_x, int size_window_y):
 	m_buttons_menu["quit"].get_text().setCharacterSize(50);
 	
 	// Buttons End Game
-	m_buttons_endgame["restart"] = Button(50, 425, 200, 50, sf::Text());
-	m_buttons_endgame["menu"] = Button(size_window_x - 50 - 200, 425, 200, 50, sf::Text());
+	m_buttons_endgame["restart"] = Button(10, 445, 200, 50, sf::Text());
+	m_buttons_endgame["menu"] = Button(size_window_x - 90, 445, 200, 50, sf::Text());
 		
 	m_buttons_endgame["restart"].get_text().setString("Restart");
-	m_buttons_endgame["restart"].get_text().setFillColor(sf::Color::Red);
+	m_buttons_endgame["restart"].get_text().setFillColor(sf::Color(255, 140, 0));
 	if(std::get<0>(m_font_banner))
 		m_buttons_endgame["restart"].get_text().setFont(std::get<1>(m_font_banner));
 	m_buttons_endgame["restart"].get_text().setCharacterSize(30);
 		
 	m_buttons_endgame["menu"].get_text().setString("Menu");
-	m_buttons_endgame["menu"].get_text().setFillColor(sf::Color::Red);
+	m_buttons_endgame["menu"].get_text().setFillColor(sf::Color(255, 140, 0));
 	if(std::get<0>(m_font_banner))
 		m_buttons_endgame["menu"].get_text().setFont(std::get<1>(m_font_banner));
 	m_buttons_endgame["menu"].get_text().setCharacterSize(30);
@@ -168,30 +176,35 @@ void Window::refresh_screen()
 				title.setFont(std::get<1>(m_font_banner));
 			if(m_game->get_game_state() == PlayerWon)
 			{
+				sprite = m_window_sprite_background_win;
+    			m_window_sprite_background_win.setPosition(0, 0);
+    			m_window.draw(m_window_sprite_background_win);
+/*
 				title.setString("The democracy has been kept safe !");
 				title.setFillColor(sf::Color::Blue);
 				title.setPosition(50, 50);
+*/
 			}
 			else
 			{
 				sprite = m_window_sprite_background_lose;
     			m_window_sprite_background_lose.setPosition(0, 0);
     			m_window.draw(m_window_sprite_background_lose);
-
+    		}
 				title.setString("Apres " + std::to_string(m_game->get_time()) + "h dans les rues et " + 
 											std::to_string(m_game->get_nb_shot() * 100) + " euros de depense, " +
 											std::to_string(m_player.get_score()) + " Gilets Jaunes repousses.");
 				title.setFillColor(sf::Color::Black);
-				title.setPosition(110, m_game->get_size_y() + 50);
+				title.setPosition(110, m_game->get_size_y() + 58);
 
-			}
-			title.setCharacterSize(22);
+			
+			title.setCharacterSize(18);
 			m_window.draw(title);
 			
 			// Subtitle
 			if(std::get<0>(m_font_banner))
 				subtitle.setFont(std::get<1>(m_font_banner));
-			
+	/*		
 			if(m_game->get_game_state() == PlayerWon)
 			{
 				subtitle.setString("Good Job");
@@ -200,14 +213,15 @@ void Window::refresh_screen()
 			}
 			else
 			{
-			/*
+			
 				subtitle.setString("Prepare yourself for the revolution");
 				subtitle.setFillColor(sf::Color::Red);
 				subtitle.setPosition(200, 125);
-			*/
+			
 			}
 			subtitle.setCharacterSize(35);
 			m_window.draw(subtitle);
+	*/
 /*			
 			// Stats1
 			if(std::get<0>(m_font_banner))
@@ -262,7 +276,7 @@ void Window::display_info()
 	if(std::get<0>(m_font_score))
 		text_score.setFont(std::get<1>(m_font_score));
 	
-	text_score.setString("Time: " + std::to_string(m_game->get_time()) + "h");
+	text_score.setString("Temps : " + std::to_string(m_game->get_time()) + "h");
 	text_score.setCharacterSize(24);
 	text_score.setFillColor(sf::Color::White);
 	text_score.setPosition(800 - 120, m_game->get_size_y());

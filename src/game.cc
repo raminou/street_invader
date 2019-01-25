@@ -92,17 +92,16 @@ void Game::generate()
     // Creating enemies
     int distance_x = (m_size_window_x - nb_x * size_enemy)/(nb_x + 1);
     int distance_y = 40;
-    
+  
     for(int line = 0; line < nb_y; line++)
     {
         for(int col = 0; col < nb_x; col++)
         {
-            /*m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
-                                   distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));*/
-        	m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
-                                   310,  Enemy::m_enemy_size, 0));
+            m_list_enemy.push_back(new Enemy(distance_x + (distance_x + size_enemy) * col,
+                                   distance_y + (distance_y + size_enemy) * line,  Enemy::m_enemy_size, 0));
         }
     }
+
 	m_nb_enemies_begin = nb_x * nb_y;
     /*
     for(int i = 0; i < 45; i++)
@@ -162,9 +161,6 @@ void Game::progress()
 	        		}
 	        	}
 
-
-
-            	//ite->move(DOWN, 0, m_size_window_x);
                 if((int) (ite->get_y() + ite->get_size()) > (int)(m_size_window_y - m_player->get_size()))
                 {
                     // GJ ont gagné
